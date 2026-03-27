@@ -15,7 +15,7 @@ public class Ghost_movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (camera_movement.target == transform){
+        if (camera_movement.player == transform){
             if (Input.GetKey(KeyCode.W))
             {
                 transform.Translate(Vector3.forward * Time.deltaTime * 5);
