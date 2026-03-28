@@ -18,10 +18,29 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (activeplayer == ghost)
-                activeplayer = dog;
-            else
-                activeplayer = ghost;
+            if (activeplayer == ghost){
+                //turn of ghost mesh
+                todog();
+            }else{
+                //turn on ghost mesh
+                toghost();
+            }
         }
+    }
+
+
+
+    void todog()
+    {
+        activeplayer = dog;
+        ghost.gameObject.SetActive(false);
+    }
+
+    void toghost()
+    {
+        activeplayer = ghost;
+        ghost.position = dog.position;
+        ghost.rotation = dog.rotation;
+        ghost.gameObject.SetActive(true);
     }
 }
