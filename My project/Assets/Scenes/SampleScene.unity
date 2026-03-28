@@ -226,8 +226,8 @@ Transform:
   m_GameObject: {fileID: 294769788}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.70711, y: 0, z: 0.70711}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -715,7 +715,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 906051334}
   serializedVersion: 5
-  m_Mass: 1
+  m_Mass: 1e+9
   m_LinearDamping: 0
   m_AngularDamping: Infinity
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -821,7 +821,7 @@ Transform:
   m_GameObject: {fileID: 906051334}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.10079, y: 0.74995, z: -3.84479}
+  m_LocalPosition: {x: 2, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -841,6 +841,7 @@ GameObject:
   - component: {fileID: 1024522575}
   - component: {fileID: 1024522583}
   - component: {fileID: 1024522584}
+  - component: {fileID: 1024522585}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -865,7 +866,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2
@@ -937,7 +938,7 @@ Transform:
   m_GameObject: {fileID: 1024522574}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.51161, y: 2.06, z: -1.45434}
+  m_LocalPosition: {x: 2, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -984,6 +985,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Ghost_movement
   speed: 5
   player: {fileID: 1852624551}
+--- !u!145 &1024522585
+SpringJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024522574}
+  serializedVersion: 4
+  m_ConnectedBody: {fileID: 906051336}
+  m_ConnectedArticulationBody: {fileID: 0}
+  m_Anchor: {x: 0, y: 1, z: 0}
+  m_AutoConfigureConnectedAnchor: 1
+  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
+  m_Spring: 10
+  m_Damper: 0.2
+  m_MinDistance: 0
+  m_MaxDistance: 5
+  m_Tolerance: 0.025
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 1
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
 --- !u!1 &1852624550
 GameObject:
   m_ObjectHideFlags: 0

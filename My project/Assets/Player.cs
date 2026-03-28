@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
     void toghost()
     {
         activeplayer = ghost;
-        ghost.position = dog.position;
+        ghost.position = dog.position + new Vector3(0, 1, 0); // position ghost above dog
         ghost.rotation = dog.rotation;
         ghost.gameObject.SetActive(true);
     }
