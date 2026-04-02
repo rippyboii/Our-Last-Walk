@@ -2,45 +2,49 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float speed = 5f;
+    public GameObject ghost;
+    public GameObject dog;
 
+    private Ghost_movement ghostMovement;
+    private Dog_movement dogMovement;
 
-    public Transform activeplayer;
-    public Transform ghost;
-    public Transform dog;
+    public GameObject activePlayer;
+
+    private void Awake()
+    {
+        ghostMovement = ghost.GetComponent<Ghost_movement>();
+        dogMovement = dog.GetComponent<Dog_movement>();
+    }
 
     void Start()
     {
-        activeplayer = ghost; // start as ghost
+        SwitchToGhost();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab)) // OK to keep for now
         {
-            if (activeplayer == ghost){
-                //turn of ghost mesh
-                todog();
-            }else{
-                //turn on ghost mesh
-                toghost();
-            }
+            if (activePlayer == ghost)
+                SwitchToDog();
+            else
+                SwitchToGhost();
         }
     }
 
-
-
-    void todog()
+    void SwitchToDog()
     {
-        activeplayer = dog;
-        ghost.gameObject.SetActive(false);
+        activePlayer = dog;
+
+        ghostMovement.Active(false);
+        dogMovement.Active(true);
     }
 
-    void toghost()
+    void SwitchToGhost()
     {
-        activeplayer = ghost;
-        ghost.position = dog.position + new Vector3(0, 1, 0); // position ghost above dog
-        ghost.rotation = dog.rotation;
-        ghost.gameObject.SetActive(true);
+        activePlayer = ghost;
+
+        dogMovement.Active(false);
+        ghostMovement.Active(true);
     }
 }

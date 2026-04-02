@@ -15,7 +15,7 @@ public class Camera_movement : MonoBehaviour
 
     void Update()
     {
-        Transform current = Player.activeplayer; // get the currently active player transform
+        GameObject current = Player.activePlayer; // get the currently active player transform
         if (current == null) return;
 
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
