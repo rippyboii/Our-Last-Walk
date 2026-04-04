@@ -26,6 +26,8 @@ UserSettings/
 *.pidb
 *.booproj
 *.svd
+.vsconfig
+*.wlt
 
 # VS Code
 .vscode/
@@ -41,3 +43,9 @@ Thumbs.db
 # =========================
 MemoryCaptures/
 Logs/
+
+# =========================
+# Unity recovery / auto-generated
+# =========================
+**/_Recovery/
+**/_Recovery.meta
