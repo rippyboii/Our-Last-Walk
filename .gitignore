@@ -32,6 +32,9 @@ UserSettings/
 # VS Code
 .vscode/
 
+# Visual Studio IDE state (machine-specific, not game data)
+.vs/
+
 # =========================
 # OS generated files
 # =========================
