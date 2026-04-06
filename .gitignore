@@ -49,3 +49,8 @@ Logs/
 # =========================
 **/_Recovery/
 **/_Recovery.meta
+
+# =========================
+# Local packages / tools
+# =========================
+My project/Packages/
