@@ -23,6 +23,8 @@ public class Dog_movement : MonoBehaviour
     private InputActionMap playerMap;
     private bool isActive = true;
 
+
+    
     private void Awake()
     {
         playerMap = inputActions.FindActionMap("Player");
@@ -54,10 +56,11 @@ public class Dog_movement : MonoBehaviour
         moveVector = moveAction.ReadValue<Vector2>();
         lookVector = lookAction.ReadValue<Vector2>();
 
-        if (jumpAction.WasPressedThisFrame())
-        {
+        if (jumpAction.IsPressed()){
+            if (!IsGrounded()) return;
             Jump();
         }
+
         if (crouchAction.IsPressed()){
             Crouch();
         }
@@ -93,6 +96,11 @@ public class Dog_movement : MonoBehaviour
     {
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         animator.SetTrigger("Jump");
+    }
+
+    bool IsGrounded()
+    {
+        return Physics.Raycast(transform.position, Vector3.down, 0.50001f);
     }
 
     private void Crouch()
