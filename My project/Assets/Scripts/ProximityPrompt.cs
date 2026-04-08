@@ -7,6 +7,10 @@ public class ProximityPrompt : MonoBehaviour
     public GameObject popupPanel;
 
     private bool dogInRange = false;
+    void Start() {
+        if (popupPanel != null)
+            popupPanel.SetActive(false);
+}
 
     void OnTriggerEnter(Collider other) {
         if (other.CompareTag(requiredTag)) {
