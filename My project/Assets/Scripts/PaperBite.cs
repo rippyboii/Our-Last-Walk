@@ -19,10 +19,15 @@ public class PaperBite : MonoBehaviour
     }
 
     public void Drop() {
-        if (!isCarried) return;
-        isCarried = false;
-        transform.SetParent(null);      
-        rb.isKinematic = false;            // re-enable physics 
-        GameStateManager.hasPaperCode = true;
-    }
+    if (!isCarried) return;
+    isCarried = false;
+    transform.SetParent(null);
+    rb.isKinematic = false;
+
+    // Add a small forward impulse on release
+    Vector3 throwDir = dogMouth.forward + Vector3.up * 0.3f;
+    rb.AddForce(throwDir * 2f, ForceMode.Impulse);
+
+    GameStateManager.hasPaperCode = true;
+}
 }
