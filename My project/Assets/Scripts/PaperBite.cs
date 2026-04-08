@@ -1,11 +1,14 @@
 using UnityEngine;
 
 public class PaperBite : MonoBehaviour
+
 {
     private Rigidbody rb;
     private Transform dogMouth;
     private bool isCarried = false;
     private MeshCollider meshCol;
+
+    public float minY = 0.1f; 
 
     void Start() {
         rb = GetComponent<Rigidbody>();
@@ -27,12 +30,20 @@ public class PaperBite : MonoBehaviour
         if (!isCarried) return;
         isCarried = false;
         transform.SetParent(null);
+        transform.rotation = Quaternion.Euler(270f, 0f, 0f); 
         rb.isKinematic = false;
-        if (meshCol != null) meshCol.enabled = true; // re-enable on drop
-
-        Vector3 throwDir = dogMouth.forward + Vector3.up * 0.3f;
-        rb.AddForce(throwDir * 2f, ForceMode.Impulse);
-
+        if (meshCol != null) meshCol.enabled = true;
         GameStateManager.Instance.hasPaperCode = true;
-    }
+    } 
+
+    void LateUpdate() {
+        if (isCarried) return;
+        Vector3 pos = transform.position;
+        if (pos.y < minY) {
+            pos.y = minY;
+            transform.position = pos;
+            // kill downward velocity so it doesn't keep pushing through
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+        }
+}
 }
