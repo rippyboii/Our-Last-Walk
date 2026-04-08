@@ -1520,7 +1520,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &232248240
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2591,6 +2591,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PhoneUIManager
   correctPin: 7777
   phoneController: {fileID: 1260139102}
+  exitHint: {fileID: 232248239}
   lockScreen: {fileID: 2007001345}
   homeScreen: {fileID: 1328806025}
   messagesPanel: {fileID: 1899745769}
@@ -2616,7 +2617,7 @@ MonoBehaviour:
   backFromMessages: {fileID: 754490317}
   backFromBlocked: {fileID: 1966230861}
   backFromExWife: {fileID: 451993899}
-  homeButtonClose: {fileID: 0}
+  homeButtonClose: {fileID: 1482668357}
 --- !u!1 &353889704
 GameObject:
   m_ObjectHideFlags: 0

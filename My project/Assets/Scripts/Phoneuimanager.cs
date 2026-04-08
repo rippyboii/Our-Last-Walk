@@ -10,6 +10,9 @@ public class PhoneUIManager : MonoBehaviour
     [Header("Phone Controller")]
     public PhoneController phoneController;
 
+    [Header("Exit Hint")]
+    public GameObject exitHint;
+
     [Header("Screens")]
     public GameObject lockScreen;
     public GameObject homeScreen;
@@ -22,7 +25,7 @@ public class PhoneUIManager : MonoBehaviour
     public Text errorLabel;
 
     [Header("Numpad Buttons (0-9 in order, then Delete)")]
-    public Button[] numpadButtons; // 0-9 assigned in Inspector
+    public Button[] numpadButtons;
     public Button deleteButton;
 
     [Header("Navigation Buttons")]
@@ -39,18 +42,29 @@ public class PhoneUIManager : MonoBehaviour
 
     void OnEnable()
     {
-        // Every time phone opens, start at lock screen
         ShowOnly(lockScreen);
         enteredPin = "";
         UpdatePinDisplay();
         if (errorLabel != null) errorLabel.gameObject.SetActive(false);
+        if (exitHint != null) exitHint.SetActive(true);
+    }
+
+    void OnDisable()
+    {
+        if (exitHint != null) exitHint.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+            ClosePhone();
     }
 
     void Start()
     {
         for (int i = 0; i < numpadButtons.Length; i++)
         {
-            int digit = i; 
+            int digit = i;
             numpadButtons[i].onClick.AddListener(() => PressDigit(digit.ToString()));
         }
 
@@ -76,10 +90,14 @@ public class PhoneUIManager : MonoBehaviour
             backFromExWife.onClick.AddListener(() => ShowOnly(blockedPanel));
 
         if (homeButtonClose != null)
-            homeButtonClose.onClick.AddListener(() => phoneController.ClosePhone());
+            homeButtonClose.onClick.AddListener(ClosePhone);
     }
 
-    //  PIN Logic
+    public void ClosePhone()
+    {
+        if (exitHint != null) exitHint.SetActive(false);
+        if (phoneController != null) phoneController.ClosePhone();
+    }
 
     public void PressDigit(string digit)
     {
@@ -107,7 +125,7 @@ public class PhoneUIManager : MonoBehaviour
 
     IEnumerator ValidatePin()
     {
-        yield return new WaitForSecondsRealtime(0.15f); // tiny pause feels natural
+        yield return new WaitForSecondsRealtime(0.15f);
 
         if (enteredPin == correctPin)
         {
@@ -117,20 +135,15 @@ public class PhoneUIManager : MonoBehaviour
         }
         else
         {
-            // Flash red
             if (pinDisplay != null) pinDisplay.color = new Color(0.90f, 0.20f, 0.20f, 1f);
             if (errorLabel != null) errorLabel.gameObject.SetActive(true);
-
             yield return new WaitForSecondsRealtime(0.7f);
-
             if (pinDisplay != null) pinDisplay.color = Color.white;
             if (errorLabel != null) errorLabel.gameObject.SetActive(false);
             enteredPin = "";
             UpdatePinDisplay();
         }
     }
-
-    // Panel Switching
 
     void ShowOnly(GameObject target)
     {
@@ -139,21 +152,17 @@ public class PhoneUIManager : MonoBehaviour
         messagesPanel?.SetActive(false);
         blockedPanel?.SetActive(false);
         exWifeThread?.SetActive(false);
-
         if (target != null) target.SetActive(true);
     }
 
     void OpenExWifeThread()
     {
         ShowOnly(exWifeThread);
-
-        // Set game flag the first time it's opened
         if (!exWifeOpened)
         {
             exWifeOpened = true;
             if (GameStateManager.Instance != null)
                 GameStateManager.Instance.hasPhonePassword = true;
-
             Debug.Log("GameStateManager.hasPhonePassword = true");
         }
     }
