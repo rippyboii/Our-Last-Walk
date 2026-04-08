@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class PaperBite : MonoBehaviour
 {
     private Rigidbody rb;
@@ -28,6 +30,6 @@ public class PaperBite : MonoBehaviour
     Vector3 throwDir = dogMouth.forward + Vector3.up * 0.3f;
     rb.AddForce(throwDir * 2f, ForceMode.Impulse);
 
-    GameStateManager.hasPaperCode = true;
+    GameStateManager.Instance.hasPaperCode = true;
 }
 }

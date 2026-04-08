@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class ProximityPrompt : MonoBehaviour
 {
     public string promptMessage = "Hold SHIFT to bite/grab & release to drop";

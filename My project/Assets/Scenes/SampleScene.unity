@@ -413,6 +413,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &153901857
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 153901858}
+  m_Layer: 0
+  m_Name: DogMouth
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &153901858
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153901857}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.49, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 906051340}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &193643185
 GameObject:
   m_ObjectHideFlags: 0
@@ -1316,6 +1347,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1080185172}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4784945406160503500, guid: 0333ae4ec067757459886fe4ece02487, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 595362134}
     - targetCorrespondingSourceObject: {fileID: 1303165066978960743, guid: 0333ae4ec067757459886fe4ece02487, type: 3}
       insertIndex: -1
       addedObject: {fileID: 595362149}
@@ -1335,6 +1369,32 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 331287603}
   m_SourcePrefab: {fileID: 100100000, guid: 0333ae4ec067757459886fe4ece02487, type: 3}
+--- !u!1 &595362133 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4784945406160503500, guid: 0333ae4ec067757459886fe4ece02487, type: 3}
+  m_PrefabInstance: {fileID: 595362132}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &595362134
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 595362133}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &595362139 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5026685821570335691, guid: 0333ae4ec067757459886fe4ece02487, type: 3}
@@ -2177,6 +2237,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 255357534}
+  - {fileID: 153901858}
   m_Father: {fileID: 1852624552}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &906051341
@@ -2763,6 +2824,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 069c766c84c00a749af28332018d0967, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1080185174}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 069c766c84c00a749af28332018d0967, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1080185175}
   m_SourcePrefab: {fileID: 100100000, guid: 069c766c84c00a749af28332018d0967, type: 3}
 --- !u!4 &1080185172 stripped
 Transform:
@@ -2796,6 +2860,27 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 1050974422812936719, guid: 069c766c84c00a749af28332018d0967, type: 3}
+--- !u!65 &1080185175
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1080185173}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0021, y: 0.0029699993, z: 0.00014999996}
+  m_Center: {x: 0.0000000018626451, y: 0, z: 0.000044999935}
 --- !u!1 &1081889729
 GameObject:
   m_ObjectHideFlags: 0
