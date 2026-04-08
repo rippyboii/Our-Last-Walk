@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class PhoneUIManager : MonoBehaviour
 {
     [Header("PIN Settings")]
-    public string correctPin = "1234";
+    public string correctPin = "7777";
 
     [Header("Phone Controller")]
     public PhoneController phoneController;
