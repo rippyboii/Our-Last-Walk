@@ -58,7 +58,7 @@ public class Dog_movement : MonoBehaviour
         {
             Jump();
         }
-        if (crouchAction.IsPressed()){
+        if (crouchAction.WasPressedThisFrame()){
             Crouch();
         }
 
