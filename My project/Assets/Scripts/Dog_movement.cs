@@ -56,7 +56,7 @@ public class Dog_movement : MonoBehaviour
         moveVector = moveAction.ReadValue<Vector2>();
         lookVector = lookAction.ReadValue<Vector2>();
 
-        if (jumpAction.IsPressed()){
+        if (jumpAction.WasPressedThisFrame()){
             if (!IsGrounded()) return;
             Jump();
         }
