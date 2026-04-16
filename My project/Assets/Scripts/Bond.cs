@@ -9,7 +9,7 @@ public class Bond : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        bond.positionCount = 2;
+        bond.positionCount = 2; // set the number of positions in the line renderer to 2
     }
 
     // Update is called once per frame
