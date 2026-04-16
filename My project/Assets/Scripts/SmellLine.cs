@@ -4,8 +4,6 @@ using UnityEngine;
 public class SmellLine : MonoBehaviour
 {
     public LineRenderer lineRenderer;
-    public Transform target; // the character/camera
-
     public int pointCount = 10;
     public float waveStrength = 0.3f;
     public float waveSpeed = 1f;
@@ -42,7 +40,7 @@ public class SmellLine : MonoBehaviour
         if (!isActive) return;
 
         // TODO: drive width or color by distance here
-        float distance = Vector3.Distance(transform.position, target.position);
+        float distance = Vector3.Distance(transform.position, dog.transform.position);
         float t = Mathf.Clamp01(distance / maxDistance); // 0 = close, 1 = far
         lineRenderer.startWidth = Mathf.Lerp(maxWidth, minWidth, t); // thick when close
         lineRenderer.endWidth = 0f; 
@@ -51,7 +49,7 @@ public class SmellLine : MonoBehaviour
             float tt = i / (float)(pointCount - 1);
 
             // base position lerped between source and target
-            Vector3 basePos = Vector3.Lerp(transform.position, target.position, tt);
+            Vector3 basePos = Vector3.Lerp(transform.position, dog.transform.position, tt);
 
             float noise = Mathf.PerlinNoise(tt * 3f, Time.time * waveSpeed) - 0.5f;
             Vector3 offset = new Vector3(noise, noise * 0.5f, 0f) * waveStrength;

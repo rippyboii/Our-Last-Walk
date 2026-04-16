@@ -15,8 +15,8 @@ public class Bond : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bond.SetPosition(0, character1.transform.position);
-        bond.SetPosition(1, character2.transform.position);
+        bond.SetPosition(0, character1.transform.position-new Vector3(0,0.3f,0));
+        bond.SetPosition(1, character2.transform.position-new Vector3(0,0.3f,0));
 
     }
 }

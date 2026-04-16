@@ -4,6 +4,7 @@ public class Player : MonoBehaviour
 {
     public GameObject ghost;
     public GameObject dog;
+    public GameObject bond;
 
     private Ghost_movement ghostMovement;
     private Dog_movement dogMovement;
@@ -34,16 +35,21 @@ public class Player : MonoBehaviour
 
     void SwitchToDog()
     {
-        activePlayer = dog;
 
+        activePlayer = dog;
+        bond.SetActive(false);
+        ghost.SetActive(false);
         ghostMovement.Active(false);
+        
         dogMovement.Active(true);
     }
 
     void SwitchToGhost()
     {
         activePlayer = ghost;
-
+        bond.SetActive(true);
+        ghost.transform.position = dog.transform.position + new Vector3(0, 0.5f, 0);
+        ghost.SetActive(true);
         dogMovement.Active(false);
         ghostMovement.Active(true);
     }

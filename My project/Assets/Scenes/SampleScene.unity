@@ -656,7 +656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SmellLine
   lineRenderer: {fileID: 193643186}
-  target: {fileID: 255357534}
+  target: {fileID: 906051340}
   pointCount: 20
   waveStrength: 0.5
   waveSpeed: 1
@@ -17216,7 +17216,6 @@ SceneRoots:
   - {fileID: 294769792}
   - {fileID: 1852624552}
   - {fileID: 871967541}
-  - {fileID: 845105064}
   - {fileID: 973276944}
   - {fileID: 1061362168}
   - {fileID: 44449264}
