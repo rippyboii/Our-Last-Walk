@@ -42,7 +42,7 @@ public class TurntableController : MonoBehaviour
     void Update()
     {
         if (isPoweredOn && isPlaying && platter != null)
-            platter.Rotate(Vector3.up, 198f * Time.deltaTime, Space.Self); // 33 RPM
+            platter.Rotate(Vector3.forward, 198f * Time.deltaTime, Space.Self); // 33 RPM
 
         if (Input.GetKeyDown(KeyCode.Escape))
             Exit();
