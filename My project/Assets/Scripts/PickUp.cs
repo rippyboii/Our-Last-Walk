@@ -80,6 +80,7 @@ public class PickUp : MonoBehaviour
             hit.collider.GetComponent<Highlight>()?.ToggleHighlight(false);
             pickUpUI.SetActive(false);
         }
+        
         if (currentlyCarried != null) return;
         if (Physics.Raycast(
             playerCameraTransform.position,
