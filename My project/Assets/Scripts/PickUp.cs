@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class PickUp : MonoBehaviour
 {
+    public event System.Action OnFragilePickup;
+    public event System.Action OnItemDropped;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField]
     private LayerMask pickableLayer;
@@ -17,7 +19,10 @@ public class PickUp : MonoBehaviour
     [SerializeField]
     private Transform pickupParent;
 
-    private GameObject currentlyCarried;
+    public GameObject currentlyCarried;
+    private BalanceQTE balanceQTE;
+    private Item item;
+
 
     [SerializeField]
     private  InputActionReference interactionInput, dropInput;
@@ -26,19 +31,27 @@ public class PickUp : MonoBehaviour
 
    void Start()
     {
-         player = FindObjectOfType<Player>();
-         interactionInput.action.performed += Interact;
-         dropInput.action.performed += Drop;
+        //balanceQTE = FindObjectOfType<BalanceQTE>();
+        //balanceQTE.OnFail += HandleFragileFail;
+        player = FindObjectOfType<Player>();
+        interactionInput.action.performed += Interact;
+        dropInput.action.performed += Drop;
 
     }
 
     private void Interact(InputAction.CallbackContext context)
-    {
+    {   
+        
         if (hit.collider == null) return;
         Rigidbody rb= hit.collider.GetComponent<Rigidbody>();
 
         if (hit.collider.GetComponent<Item>())
-        {
+        {   
+            item = hit.collider.GetComponent<Item>();
+           /*  if (item.isFragile)
+            {
+                OnFragilePickup?.Invoke();
+            } */
             Debug.Log("Picking up " + hit.collider.name);
             currentlyCarried = hit.collider.gameObject;
             //rrentlyCarried.transform.position = Vector3.zero;
@@ -62,8 +75,16 @@ public class PickUp : MonoBehaviour
             rb.isKinematic = false;
         }
         currentlyCarried = null;
+        // OnItemDropped?.Invoke();
     }
-
+    /* void HandleFragileFail()
+    {
+        if (currentlyCarried == null) return;
+        
+        // TODO: play break sound, spawn broken prefab, particles etc
+        Destroy(currentlyCarried);
+        currentlyCarried = null;
+    } */
     
     // Update is called once per frame
     void Update()
