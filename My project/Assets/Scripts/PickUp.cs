@@ -31,8 +31,8 @@ public class PickUp : MonoBehaviour
 
    void Start()
     {
-        //balanceQTE = FindObjectOfType<BalanceQTE>();
-        //balanceQTE.OnFail += HandleFragileFail;
+        balanceQTE = FindObjectOfType<BalanceQTE>();
+        balanceQTE.OnFail += HandleFragileFail;
         player = FindObjectOfType<Player>();
         interactionInput.action.performed += Interact;
         dropInput.action.performed += Drop;
@@ -48,10 +48,10 @@ public class PickUp : MonoBehaviour
         if (hit.collider.GetComponent<Item>())
         {   
             item = hit.collider.GetComponent<Item>();
-           /*  if (item.isFragile)
+            if (item.isFragile)
             {
                 OnFragilePickup?.Invoke();
-            } */
+            }
             Debug.Log("Picking up " + hit.collider.name);
             currentlyCarried = hit.collider.gameObject;
             //rrentlyCarried.transform.position = Vector3.zero;
@@ -75,16 +75,16 @@ public class PickUp : MonoBehaviour
             rb.isKinematic = false;
         }
         currentlyCarried = null;
-        // OnItemDropped?.Invoke();
+        OnItemDropped?.Invoke();
     }
-    /* void HandleFragileFail()
+    void HandleFragileFail()
     {
         if (currentlyCarried == null) return;
         
         // TODO: play break sound, spawn broken prefab, particles etc
         Destroy(currentlyCarried);
         currentlyCarried = null;
-    } */
+    }
     
     // Update is called once per frame
     void Update()

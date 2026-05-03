@@ -5,11 +5,11 @@ public class BalanceQTE : MonoBehaviour
     [Header("Needle Settings")]
     public float driftStrength = 0.3f;    // how hard the needle pulls away from center
     public float driftSpeed = 0.8f;       // how fast the drift cycles
-    public float playerCorrection = 1f;   // how much mouse input affects needle
-    public float needleMomentum = 0.95f;  // how slidey the needle feels (0-1, higher = more momentum)
+    public float impulsePower = 0.075f;   // how much mouse input affects needle
+    public float needleMomentum = 0.15f;  // how slidey the needle feels (0-1, higher = more momentum)
 
     [Header("Fail Condition")]
-    public float failThreshold = 0.85f;   // how far needle can go before failing (-1 to 1)
+    public float failThreshold = 0.95f;   // how far needle can go before failing (-1 to 1)
     public float failGracePeriod = 0.5f;  // seconds outside threshold before failing
 
     // the core value - everything else reads from this
@@ -17,17 +17,16 @@ public class BalanceQTE : MonoBehaviour
     public float needlePosition { get; private set; }
     public event System.Action OnFail;
 
-
     private float needleVelocity;         // current momentum of the needle
     private float failTimer;              // counts up while outside threshold
     private bool isActive = false;
     private PickUp pickUp;
-    private Camera_movement cameraMovement;
-
+    private BalanceUI balanceUI;
+   
     void Start()
     {
         pickUp = FindObjectOfType<PickUp>();
-        cameraMovement = FindObjectOfType<Camera_movement>();
+        balanceUI = FindObjectOfType<BalanceUI>();
         pickUp.OnFragilePickup += StartQTE;
         pickUp.OnItemDropped += StopQTE;
     }
@@ -59,7 +58,7 @@ public class BalanceQTE : MonoBehaviour
 
         // momentum - dampen velocity each frame so it doesn't accelerate forever
         // higher value = more slidey, lower = snappier
-        //needleVelocity *= needleM;
+        // needleVelocity *= needleMomentum;
 
         // apply velocity to position
         needlePosition += needleVelocity * Time.deltaTime;
@@ -70,41 +69,37 @@ public class BalanceQTE : MonoBehaviour
 
     void HandlePlayerInput()
     {
-        // mouse delta gives us how much mouse moved this frame
-        // positive = right, negative = left
-        float mouseX = Input.GetAxis("Mouse X");
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            needleVelocity -= impulsePower;
+        } 
 
-        // TODO: consider inverting input or scaling it differently
-        // depending on feel you want
-        // TODO: when you add the balancing UI, decouple mouse from camera here
-        needleVelocity += mouseX * playerCorrection * Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            needleVelocity += impulsePower;
+        }
     }
 
-    void HandleFailCondition()
+   void HandleFailCondition()
+{
+    float abs = Mathf.Abs(needlePosition);
+    Debug.Log($"abs: {abs} threshold: {failThreshold} greater: {abs > failThreshold} timer: {failTimer}");
+    
+    if (abs > failThreshold)
     {
-        // check if needle is outside safe zone
-        if (Mathf.Abs(needlePosition) > failThreshold)
-        {
-            failTimer += Time.deltaTime;
-
-            // TODO: drive some visual feedback here while in danger zone
-            // e.g. UI turns red, screen shakes slightly
-
-            if (failTimer >= failGracePeriod)
-            {
-                TriggerFail();
-            }
-        }
-        else
-        {
-            // back in safe zone - reset grace period timer
-            failTimer = 0f;
-        }
+        failTimer += Time.deltaTime;
+        if (failTimer >= failGracePeriod)
+            TriggerFail();
     }
+    else
+    {
+        failTimer = 0f;
+    }
+}
 
     void TriggerFail()
     {   
-        cameraMovement.isCameraLocked = false;
+        balanceUI.balancePanel.SetActive(true);
         isActive = false;
         needlePosition = 0f;
         needleVelocity = 0f;
@@ -117,17 +112,18 @@ public class BalanceQTE : MonoBehaviour
     }
 
     public void StartQTE()
-    {
-        cameraMovement.isCameraLocked = true;
+    {   
+        balanceUI.balancePanel.SetActive(true);
         isActive = true;
         needlePosition = 0f;
         needleVelocity = 0f;
         failTimer = 0f;
+       
     }
 
     public void StopQTE()
     {
-        cameraMovement.isCameraLocked = false;
+        balanceUI.balancePanel.SetActive(false);
         isActive = false;
         needlePosition = 0f;
         needleVelocity = 0f;

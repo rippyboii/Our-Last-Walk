@@ -144,6 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5896b579e6ab52f4987f2abdcfcb99a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Item
+  isFragile: 0
 --- !u!114 &1428268260425098146
 MonoBehaviour:
   m_ObjectHideFlags: 0
