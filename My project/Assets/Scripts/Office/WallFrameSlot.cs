@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 // Attach to WallFrame_1 … WallFrame_4.
 // Handles placement, removal, and highlight feedback for one wall frame.
 public class WallFrameSlot : MonoBehaviour
@@ -11,7 +11,7 @@ public class WallFrameSlot : MonoBehaviour
 
     // Optional prompt UI for this slot (separate from the photo's ProximityPrompt).
     public GameObject promptUI;
-    public Text promptText;
+    public TMP_Text promptText;
 
     [HideInInspector] public string currentPhotoId = "";
 
@@ -19,10 +19,19 @@ public class WallFrameSlot : MonoBehaviour
     private PhotoDrag photoInSlot;
     private bool locked;
 
+    private Renderer[] frameRenderers;
+    private int defaultLayer;
+    private int highlightLayer;
+
     void Start()
     {
-        if (highlightVisual != null) highlightVisual.SetActive(false);
+        frameRenderers = GetComponentsInChildren<Renderer>();
+        defaultLayer = LayerMask.NameToLayer("Default");      
+        highlightLayer = LayerMask.NameToLayer("Highlighted"); 
+        
+        SetHighlight(false);
         if (promptUI != null) promptUI.SetActive(false);
+
     }
 
     void OnTriggerEnter(Collider other)
@@ -36,7 +45,7 @@ public class WallFrameSlot : MonoBehaviour
             PhotoDrag.framesInRange++;
             PhotoDrag.HeldPhoto.enteredFrameZone = true;
 
-            if (highlightVisual != null) highlightVisual.SetActive(true);
+            SetHighlight(true);
             ShowPrompt("Press E to place");
         }
         else if (currentPhotoId != "")
@@ -53,7 +62,7 @@ public class WallFrameSlot : MonoBehaviour
         if (PhotoDrag.HeldPhoto != null && PhotoDrag.framesInRange > 0)
             PhotoDrag.framesInRange--;
 
-        if (highlightVisual != null) highlightVisual.SetActive(false);
+        SetHighlight(false);
         HidePrompt();
     }
 
@@ -77,7 +86,7 @@ public class WallFrameSlot : MonoBehaviour
         photo.transform.localPosition = Vector3.zero;
         photo.transform.localRotation = Quaternion.identity;
 
-        if (highlightVisual != null) highlightVisual.SetActive(false);
+        SetHighlight(false);
         HidePrompt();
         puzzleManager.CheckSolution();
     }
@@ -90,7 +99,7 @@ public class WallFrameSlot : MonoBehaviour
 
         removed.PickUpFromFrame();
         ShowPrompt("Press E to place");
-        if (highlightVisual != null) highlightVisual.SetActive(true);
+        SetHighlight(true);
         puzzleManager.CheckSolution();
     }
 
@@ -110,4 +119,11 @@ public class WallFrameSlot : MonoBehaviour
     {
         if (promptUI != null) promptUI.SetActive(false);
     }
+
+    void SetHighlight(bool on)
+{
+    int layer = on ? highlightLayer : defaultLayer;
+    foreach (var r in frameRenderers)
+        r.gameObject.layer = layer;
+}
 }

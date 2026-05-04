@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 // Attach to the FlashbackManager GameObject.
 // Plays 4-5 comic panels then reveals the laptop password date.
@@ -14,7 +15,7 @@ public class FlashbackManager : MonoBehaviour
     [Header("Date Reveal")]
     public string revealedDate;       // must match GameStateManager.Instance.laptopPassword
     public GameObject dateScreen;     // child panel showing the date text
-    public Text dateText;             // displays revealedDate
+    public TMP_Text dateText;             // displays revealedDate
 
     [Header("Canvas")]
     public GameObject flashbackCanvas;
