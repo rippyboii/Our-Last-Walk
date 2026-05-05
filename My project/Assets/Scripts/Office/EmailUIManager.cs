@@ -48,9 +48,9 @@ public class EmailUIManager : MonoBehaviour
         {
             int idx = i;
             GameObject item = Instantiate(emailItemPrefab, emailListContainer);
-            Text label = item.GetComponentInChildren<Text>();
+           TMP_Text label = item.GetComponentInChildren<TMP_Text>();
             if (label != null)
-                label.text = $"{emails[i].sender}  —  {emails[i].subject}";
+                label.text = emails[i].sender + "  —  " + emails[i].subject;
             Button btn = item.GetComponent<Button>();
             if (btn != null)
                 btn.onClick.AddListener(() => SelectEmail(idx));
