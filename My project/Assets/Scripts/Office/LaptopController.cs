@@ -2,8 +2,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-// Attach to the Laptop GameObject.
-// Follows SafeController pattern for keypad / password validation.
 public class LaptopController : MonoBehaviour
 {
     [Header("Panels")]
@@ -11,36 +9,26 @@ public class LaptopController : MonoBehaviour
     public GameObject lockScreenPanel;
     public GameObject emailPanel;
 
-    [Header("Keypad")]
-    public Text codeDisplay;
-    public Button[] digitButtons;
-    public Button clearButton;
-    public Button enterButton;
-    public Button closeButton;
+    [Header("Password Input")]
+    public InputField passwordInput;
     public GameObject wrongCodeFlash;
+    public Button closeButton;
+
+    [Header("Prompt")]
+    public GameObject promptUI;
 
     [Header("References")]
     public FlashbackManager flashbackManager;
-    public ProximityPrompt prompt;
 
     private bool playerInRange;
     private bool passwordEntered;
     private bool officeMarked;
-    private string inputCode = "";
 
     void Start()
     {
-        for (int i = 0; i < digitButtons.Length; i++)
-        {
-            int digit = i;
-            digitButtons[i].onClick.AddListener(() => PressDigit(digit.ToString()));
-        }
-        clearButton?.onClick.AddListener(ClearInput);
-        enterButton?.onClick.AddListener(SubmitCode);
-        closeButton?.onClick.AddListener(CloseLaptop);
-
         if (laptopCanvas != null) laptopCanvas.SetActive(false);
-        if (prompt != null && prompt.popupPanel != null) prompt.popupPanel.SetActive(false);
+        if (promptUI != null) promptUI.SetActive(false);
+        closeButton?.onClick.AddListener(CloseLaptop);
     }
 
     void OnTriggerEnter(Collider other)
@@ -54,23 +42,31 @@ public class LaptopController : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
         playerInRange = false;
-        if (prompt != null && prompt.popupPanel != null)
-            prompt.popupPanel.SetActive(false);
+        if (promptUI != null) promptUI.SetActive(false);
     }
 
     void Update()
     {
-        // E closes the laptop at any time while it is open.
-        if (laptopCanvas != null && laptopCanvas.activeSelf && Input.GetKeyDown(KeyCode.E))
+        if (laptopCanvas != null && laptopCanvas.activeSelf)
         {
-            CloseLaptop();
-            return;
+            // E closes at any time
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                CloseLaptop();
+                return;
+            }
+
+            // Enter submits the password
+            if (lockScreenPanel != null && lockScreenPanel.activeSelf
+                && Input.GetKeyDown(KeyCode.Return))
+            {
+                StartCoroutine(Validate());
+            }
         }
 
-        if (playerInRange && Input.GetKeyDown(KeyCode.E))
+        if (playerInRange && !laptopCanvas.activeSelf && Input.GetKeyDown(KeyCode.E))
         {
-            if (flashbackManager != null && flashbackManager.flashbackSeen)
-                OpenLaptop();
+            OpenLaptop();
         }
     }
 
@@ -84,11 +80,13 @@ public class LaptopController : MonoBehaviour
         lockScreenPanel.SetActive(!passwordEntered);
         emailPanel.SetActive(passwordEntered);
 
-        inputCode = "";
-        UpdateDisplay();
+        if (passwordInput != null)
+        {
+            passwordInput.text = "";
+            passwordInput.ActivateInputField();
+        }
 
-        if (prompt != null && prompt.popupPanel != null)
-            prompt.popupPanel.SetActive(false);
+        if (promptUI != null) promptUI.SetActive(false);
     }
 
     public void CloseLaptop()
@@ -104,31 +102,17 @@ public class LaptopController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        inputCode = "";
-        UpdateDisplay();
-
+        if (passwordInput != null) passwordInput.text = "";
         if (playerInRange) RefreshPrompt();
     }
 
-    void PressDigit(string digit)
-    {
-        inputCode += digit;
-        UpdateDisplay();
-    }
-
-    void ClearInput()
-    {
-        inputCode = "";
-        UpdateDisplay();
-    }
-
-    void SubmitCode() { StartCoroutine(Validate()); }
-
     IEnumerator Validate()
     {
+        string entered = passwordInput != null ? passwordInput.text : "";
+
         yield return new WaitForSecondsRealtime(0.15f);
 
-        if (inputCode == GameStateManager.Instance.laptopPassword)
+        if (entered == GameStateManager.Instance.laptopPassword)
         {
             passwordEntered = true;
             lockScreenPanel.SetActive(false);
@@ -136,25 +120,23 @@ public class LaptopController : MonoBehaviour
         }
         else
         {
-            wrongCodeFlash?.SetActive(true);
+            if (wrongCodeFlash != null) wrongCodeFlash.SetActive(true);
             yield return new WaitForSecondsRealtime(0.7f);
-            wrongCodeFlash?.SetActive(false);
-            inputCode = "";
-            UpdateDisplay();
+            if (wrongCodeFlash != null) wrongCodeFlash.SetActive(false);
+            if (passwordInput != null)
+            {
+                passwordInput.text = "";
+                passwordInput.ActivateInputField();
+            }
         }
-    }
-
-    void UpdateDisplay()
-    {
-        if (codeDisplay != null) codeDisplay.text = inputCode;
     }
 
     void RefreshPrompt()
     {
-        if (prompt == null || prompt.popupPanel == null) return;
-        bool seen = flashbackManager != null && flashbackManager.flashbackSeen;
-        prompt.popupPanel.SetActive(true);
-        Text t = prompt.popupPanel.GetComponentInChildren<Text>();
+        if (promptUI == null) return;
+        bool seen = flashbackManager == null || flashbackManager.flashbackSeen;
+        promptUI.SetActive(true);
+        Text t = promptUI.GetComponentInChildren<Text>();
         if (t != null)
             t.text = seen ? "Press E to use laptop" : "Laptop is locked";
     }
