@@ -7,7 +7,7 @@ public class WallFrameSlot : MonoBehaviour
 {
     public int slotIndex;                     // 0 = leftmost
     public PhotoPuzzleManager puzzleManager;
-    public GameObject highlightVisual;        // child outline object, starts inactive
+    public MeshRenderer frameDisplay;         // child Quad that shows the placed photo material
 
     // Optional prompt UI for this slot (separate from the photo's ProximityPrompt).
     public GameObject promptUI;
@@ -36,6 +36,7 @@ public class WallFrameSlot : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log($"[WallFrameSlot {slotIndex}] TriggerEnter: {other.name} tag={other.tag}, HeldPhoto={PhotoDrag.HeldPhoto?.photoId ?? "null"}");
         if (!other.CompareTag("Player")) return;
         playerInRange = true;
 
@@ -82,9 +83,12 @@ public class WallFrameSlot : MonoBehaviour
         photoInSlot = photo;
 
         photo.PlacedInFrame();
-        photo.transform.SetParent(transform);
-        photo.transform.localPosition = Vector3.zero;
-        photo.transform.localRotation = Quaternion.identity;
+
+        if (frameDisplay != null && photo.photoMaterial != null)
+        {
+            frameDisplay.gameObject.SetActive(true);
+            frameDisplay.material = photo.photoMaterial;
+        }
 
         SetHighlight(false);
         HidePrompt();
@@ -96,6 +100,9 @@ public class WallFrameSlot : MonoBehaviour
         PhotoDrag removed = photoInSlot;
         currentPhotoId = "";
         photoInSlot = null;
+
+        if (frameDisplay != null)
+            frameDisplay.gameObject.SetActive(false);
 
         removed.PickUpFromFrame();
         ShowPrompt("Press E to place");

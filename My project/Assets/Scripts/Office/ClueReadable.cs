@@ -5,7 +5,7 @@ using UnityEngine;
 public class ClueReadable : MonoBehaviour
 {
     public GameObject clueCanvas;
-    public ProximityPrompt prompt;
+    public GameObject promptPanel;  // 直接拖入提示 Panel，不需要 ProximityPrompt
 
     private bool playerInRange;
     private bool isOpen;
@@ -13,23 +13,33 @@ public class ClueReadable : MonoBehaviour
     void Start()
     {
         if (clueCanvas != null) clueCanvas.SetActive(false);
-        if (prompt != null && prompt.popupPanel != null) prompt.popupPanel.SetActive(false);
+        if (promptPanel != null) promptPanel.SetActive(false);
     }
 
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log($"[ClueReadable] TriggerEnter: {other.gameObject.name} tag={other.tag}");
         if (!other.CompareTag("Player")) return;
         playerInRange = true;
-        if (!isOpen && prompt != null && prompt.popupPanel != null)
-            prompt.popupPanel.SetActive(true);
+        Debug.Log($"[ClueReadable] Player entered range. isOpen={isOpen}");
+        if (!isOpen && promptPanel != null)
+        {
+            Debug.Log("[ClueReadable] Player in range, showing prompt.");
+            promptPanel.SetActive(true);
+        }
+        else if (promptPanel == null)
+        {
+            Debug.LogWarning("[ClueReadable] promptPanel is not assigned!");
+        }
     }
 
     void OnTriggerExit(Collider other)
     {
+        Debug.Log($"[ClueReadable] TriggerExit: {other.gameObject.name} tag={other.tag}");
         if (!other.CompareTag("Player")) return;
         playerInRange = false;
-        if (prompt != null && prompt.popupPanel != null)
-            prompt.popupPanel.SetActive(false);
+        if (promptPanel != null)
+            promptPanel.SetActive(false);
     }
 
     void Update()
@@ -45,7 +55,7 @@ public class ClueReadable : MonoBehaviour
     void OpenClue()
     {
         isOpen = true;
-        if (prompt != null && prompt.popupPanel != null) prompt.popupPanel.SetActive(false);
+        if (promptPanel != null) promptPanel.SetActive(false);
         if (clueCanvas != null) clueCanvas.SetActive(true);
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
@@ -59,7 +69,7 @@ public class ClueReadable : MonoBehaviour
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        if (playerInRange && prompt != null && prompt.popupPanel != null)
-            prompt.popupPanel.SetActive(true);
+        if (playerInRange && promptPanel != null)
+            promptPanel.SetActive(true);
     }
 }

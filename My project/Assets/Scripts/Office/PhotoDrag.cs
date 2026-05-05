@@ -1,17 +1,18 @@
 using UnityEngine;
 
 // Attach to Photo_Dating, Photo_Child, Photo_Divorce, Photo_Dog.
-// Ghost picks up the photo with E; while held, WallFrameSlot handles placement.
+// On pickup the photo's renderers are hidden; WallFrameSlot shows the photo via frameDisplay.
 public class PhotoDrag : MonoBehaviour
 {
     public string photoId;           // "dating", "child", "divorce", "dog"
-    public ProximityPrompt prompt;   // assign in Inspector
+    public GameObject promptPanel;   // the Panel inside your PromptCanvas
+    public Material photoMaterial;   // material shown inside the wall frame on placement
 
     // Shared across all photos so only one can be held at a time.
     public static PhotoDrag HeldPhoto;
     public static int framesInRange;  // incremented/decremented by WallFrameSlot
 
-    [HideInInspector] public bool enteredFrameZone;  // set by WallFrameSlot on first enter
+    [HideInInspector] public bool enteredFrameZone;
 
     private bool playerInRange;
     private bool isHeld;
@@ -19,40 +20,33 @@ public class PhotoDrag : MonoBehaviour
     private Vector3 originalPosition;
     private Quaternion originalRotation;
     private Rigidbody rb;
-    private Transform holdPoint;
+    private Renderer[] photoRenderers;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         originalPosition = transform.position;
         originalRotation = transform.rotation;
+        photoRenderers = GetComponentsInChildren<Renderer>();
 
-        if (prompt != null && prompt.popupPanel != null)
-            prompt.popupPanel.SetActive(false);
-
-        // Locate PhotoHoldPoint on the Ghost prefab at runtime.
-        GameObject player = GameObject.FindWithTag("Player");
-        if (player != null)
-        {
-            Transform hp = player.transform.Find("PhotoHoldPoint");
-            if (hp != null) holdPoint = hp;
-        }
+        if (promptPanel != null)
+            promptPanel.SetActive(false);
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player") || isHeld || HeldPhoto != null) return;
         playerInRange = true;
-        if (prompt != null && prompt.popupPanel != null)
-            prompt.popupPanel.SetActive(true);
+        if (promptPanel != null)
+            promptPanel.SetActive(true);
     }
 
     void OnTriggerExit(Collider other)
     {
         if (!other.CompareTag("Player")) return;
         playerInRange = false;
-        if (prompt != null && prompt.popupPanel != null)
-            prompt.popupPanel.SetActive(false);
+        if (promptPanel != null)
+            promptPanel.SetActive(false);
     }
 
     void Update()
@@ -77,47 +71,30 @@ public class PhotoDrag : MonoBehaviour
 
         rb.isKinematic = true;
         rb.detectCollisions = false;
+        SetRenderersVisible(false);
 
-        if (holdPoint != null)
-        {
-            transform.SetParent(holdPoint);
-            transform.localPosition = Vector3.zero;
-            transform.localRotation = Quaternion.identity;
-        }
-
-        if (prompt != null && prompt.popupPanel != null)
-            prompt.popupPanel.SetActive(false);
+        if (promptPanel != null)
+            promptPanel.SetActive(false);
         playerInRange = false;
     }
 
-    // Called by WallFrameSlot after successfully snapping photo into the frame.
+    // Called by WallFrameSlot after snapping photo into the frame.
     public void PlacedInFrame()
     {
         isHeld = false;
         if (HeldPhoto == this) HeldPhoto = null;
         enteredFrameZone = false;
-        rb.isKinematic = true;
-        rb.detectCollisions = false;
+        // Renderers stay hidden — frameDisplay on WallFrameSlot shows the photo.
     }
 
-    // Called by WallFrameSlot when Ghost removes a placed photo (picks it back up).
+    // Called by WallFrameSlot when Ghost removes a placed photo.
     public void PickUpFromFrame()
     {
         isHeld = true;
         HeldPhoto = this;
-        // Ghost is still inside the frame zone that triggered the removal.
         framesInRange = 1;
         enteredFrameZone = true;
-
-        rb.isKinematic = true;
-        rb.detectCollisions = false;
-
-        if (holdPoint != null)
-        {
-            transform.SetParent(holdPoint);
-            transform.localPosition = Vector3.zero;
-            transform.localRotation = Quaternion.identity;
-        }
+        // Renderers stay hidden — Ghost holds it invisibly.
     }
 
     public void Drop()
@@ -126,11 +103,17 @@ public class PhotoDrag : MonoBehaviour
         if (HeldPhoto == this) HeldPhoto = null;
         enteredFrameZone = false;
 
-        transform.SetParent(null);
         transform.position = originalPosition;
         transform.rotation = originalRotation;
 
         rb.isKinematic = false;
         rb.detectCollisions = true;
+        SetRenderersVisible(true);
+    }
+
+    void SetRenderersVisible(bool visible)
+    {
+        foreach (Renderer r in photoRenderers)
+            r.enabled = visible;
     }
 }

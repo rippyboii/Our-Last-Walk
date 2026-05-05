@@ -6893,6 +6893,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 939949895471736114, guid: b63f3746063691e49b6baf823257f173, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1425328104}
+    - targetCorrespondingSourceObject: {fileID: 939949895471736114, guid: b63f3746063691e49b6baf823257f173, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1425328110}
+    - targetCorrespondingSourceObject: {fileID: 939949895471736114, guid: b63f3746063691e49b6baf823257f173, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1425328109}
   m_SourcePrefab: {fileID: 100100000, guid: b63f3746063691e49b6baf823257f173, type: 3}
 --- !u!1 &599552521
 GameObject:
@@ -17307,6 +17313,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ClueReadable
   clueCanvas: {fileID: 0}
   prompt: {fileID: 0}
+--- !u!114 &1425328109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1425328098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386ccf12d0668f947aadb9ca0cf1e836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SafeProximityTrigger
+  promptUI: {fileID: 0}
+  safe: {fileID: 0}
+--- !u!65 &1425328110
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1425328098}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.05934607, y: 0.31062907, z: 0.24508372}
+  m_Center: {x: -0.00094424, y: 0.15531453, z: 0.000000007450581}
 --- !u!1 &1427501249 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5375604406278231976, guid: 8326825491e56934c92416a4dfe535aa, type: 3}
@@ -22758,6 +22799,10 @@ PrefabInstance:
     - target: {fileID: 455128841748339472, guid: bbbf61090fb8c064789785c8a7727b89, type: 3}
       propertyPath: m_Name
       value: small_whiteboard
+      objectReference: {fileID: 0}
+    - target: {fileID: 455128841748339472, guid: bbbf61090fb8c064789785c8a7727b89, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6154310013908566403, guid: bbbf61090fb8c064789785c8a7727b89, type: 3}
       propertyPath: m_LocalPosition.x
