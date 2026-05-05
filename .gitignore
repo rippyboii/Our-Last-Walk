@@ -26,14 +26,9 @@ UserSettings/
 *.pidb
 *.booproj
 *.svd
-.vsconfig
-*.wlt
 
 # VS Code
 .vscode/
-
-# Visual Studio IDE state (machine-specific, not game data)
-.vs/
 
 # =========================
 # OS generated files
@@ -46,14 +41,3 @@ Thumbs.db
 # =========================
 MemoryCaptures/
 Logs/
-
-# =========================
-# Unity recovery / auto-generated
-# =========================
-**/_Recovery/
-**/_Recovery.meta
-
-# =========================
-# Local packages / tools
-# =========================
-My project/Packages/
