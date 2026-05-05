@@ -66,8 +66,7 @@ public class LaptopController : MonoBehaviour
 
         if (playerInRange && !laptopCanvas.activeSelf && Input.GetKeyDown(KeyCode.E))
         {
-            bool seen = flashbackManager == null || flashbackManager.flashbackSeen;
-            if (seen) OpenLaptop();
+            OpenLaptop();
         }
     }
 
