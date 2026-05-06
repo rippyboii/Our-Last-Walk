@@ -7,7 +7,7 @@ public class WallFrameSlot : MonoBehaviour
 {
     public int slotIndex;                     // 0 = leftmost
     public PhotoPuzzleManager puzzleManager;
-    public MeshRenderer frameDisplay;         // child Quad that shows the placed photo material
+    public MeshRenderer frameMeshRenderer;    // the frame's own MeshRenderer (element 1 = photo slot)
 
     // Optional prompt UI for this slot (separate from the photo's ProximityPrompt).
     public GameObject promptUI;
@@ -22,13 +22,17 @@ public class WallFrameSlot : MonoBehaviour
     private Renderer[] frameRenderers;
     private int defaultLayer;
     private int highlightLayer;
+    private Material originalSlot1Material;
 
     void Start()
     {
         frameRenderers = GetComponentsInChildren<Renderer>();
-        defaultLayer = LayerMask.NameToLayer("Default");      
-        highlightLayer = LayerMask.NameToLayer("Highlighted"); 
-        
+        defaultLayer = LayerMask.NameToLayer("Default");
+        highlightLayer = LayerMask.NameToLayer("Highlighted");
+
+        if (frameMeshRenderer != null && frameMeshRenderer.materials.Length > 1)
+            originalSlot1Material = frameMeshRenderer.materials[1];
+
         SetHighlight(false);
         if (promptUI != null) promptUI.SetActive(false);
 
@@ -84,10 +88,11 @@ public class WallFrameSlot : MonoBehaviour
 
         photo.PlacedInFrame();
 
-        if (frameDisplay != null && photo.photoMaterial != null)
+        if (frameMeshRenderer != null && photo.photoMaterial != null)
         {
-            frameDisplay.gameObject.SetActive(true);
-            frameDisplay.material = photo.photoMaterial;
+            Material[] mats = frameMeshRenderer.materials;
+            mats[1] = photo.photoMaterial;
+            frameMeshRenderer.materials = mats;
         }
 
         SetHighlight(false);
@@ -101,8 +106,12 @@ public class WallFrameSlot : MonoBehaviour
         currentPhotoId = "";
         photoInSlot = null;
 
-        if (frameDisplay != null)
-            frameDisplay.gameObject.SetActive(false);
+        if (frameMeshRenderer != null && originalSlot1Material != null)
+        {
+            Material[] mats = frameMeshRenderer.materials;
+            mats[1] = originalSlot1Material;
+            frameMeshRenderer.materials = mats;
+        }
 
         removed.PickUpFromFrame();
         ShowPrompt("Press E to place");
