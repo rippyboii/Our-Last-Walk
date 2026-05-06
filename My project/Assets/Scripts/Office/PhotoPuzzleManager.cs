@@ -16,10 +16,8 @@ public class PhotoPuzzleManager : MonoBehaviour
     {
         if (solved) return;
 
-        for (int i = 0; i < slots.Length; i++)
-        {
-            if (slots[i].currentPhotoId != correctOrder[i]) return;
-        }
+        // TEST: only require child photo in slot 1
+        if (slots[1].currentPhotoId != "child") return;
 
         solved = true;
         foreach (WallFrameSlot slot in slots)
