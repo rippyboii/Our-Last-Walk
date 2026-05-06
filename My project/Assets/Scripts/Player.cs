@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Player : MonoBehaviour
 
     public GameObject activePlayer;
 
+    public Volume blurVolume;
     private void Awake()
     {
         ghostMovement = ghost.GetComponent<Ghost_movement>();
@@ -35,7 +37,7 @@ public class Player : MonoBehaviour
 
     void SwitchToDog()
     {
-
+        blurVolume.GetComponent<VisionBlur>().SetBlurry(true);
         activePlayer = dog;
         bond.SetActive(false);
         ghost.SetActive(false);
@@ -46,6 +48,7 @@ public class Player : MonoBehaviour
 
     void SwitchToGhost()
     {
+        blurVolume.GetComponent<VisionBlur>().SetBlurry(false);
         activePlayer = ghost;
         bond.SetActive(true);
         ghost.transform.position = dog.transform.position + new Vector3(0, 0.5f, 0);

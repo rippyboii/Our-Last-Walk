@@ -106,8 +106,8 @@ public class Dog_movement : MonoBehaviour
     private void Crouch()
     {
         //idk how to do this / what we want it to do
-        animator.SetTrigger("Crouch");
-        animator.SetBool("IsCrouching", true);
+        //animator.SetTrigger("Crouch");
+        //animator.SetBool("IsCrouching", true);
     }
 
     public void Active(bool active)
