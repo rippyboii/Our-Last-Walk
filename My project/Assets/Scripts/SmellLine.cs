@@ -1,58 +1,65 @@
-using NUnit.Framework;
 using UnityEngine;
 
 public class SmellLine : MonoBehaviour
 {
+    [Header("References")]
     public LineRenderer lineRenderer;
-    public int pointCount = 10;
-    public float waveStrength = 0.3f;
-    public float waveSpeed = 1f;
-    public KeyCode activationKey = KeyCode.F;
-    public float maxDistance;
-    public float maxWidth;
-    public float minWidth;
-    private bool isActive = false;
-    private GameObject currentPlayer;
-    public GameObject dog;
+    public GameObject target;
 
+    [Header("Line Settings")]
+    public int pointCount = 20;
+    public float maxWidth = 0.1f;
+    public float minWidth = 0.01f;
+    public float maxDistance = 20f;
+
+    [Header("Noise Settings")]
+    public float waveStrength = 0.15f;
+    public float waveSpeed = 0.5f;
+    public float noiseScale = 1.5f;
+
+    private Player player;
 
     void Start()
     {
+        player = FindObjectOfType<Player>();
         lineRenderer.positionCount = pointCount;
+        lineRenderer.useWorldSpace = true;
         lineRenderer.enabled = false;
     }
 
     void Update()
-    {   
-        currentPlayer = GameObject.Find("Player").GetComponent<Player>().activePlayer;
-        if (currentPlayer!=dog)
+    {
+        if (!player.IsDog())
         {
-            isActive = false;
-            lineRenderer.enabled = isActive;
+            lineRenderer.enabled = false;
+            return;
         }
-        else
-        {
-            isActive = true;
-            lineRenderer.enabled = isActive;
-        }
-     
 
-        if (!isActive) return;
+        lineRenderer.enabled = true;
 
-        // TODO: drive width or color by distance here
-        float distance = Vector3.Distance(transform.position, dog.transform.position);
-        float t = Mathf.Clamp01(distance / maxDistance); // 0 = close, 1 = far
-        lineRenderer.startWidth = Mathf.Lerp(maxWidth, minWidth, t); // thick when close
-        lineRenderer.endWidth = 0f; 
+        float distance = Vector3.Distance(transform.position, target.transform.position);
+        float t = Mathf.Clamp01(distance / maxDistance);
+        lineRenderer.startWidth = Mathf.Lerp(maxWidth, minWidth, t);
+        lineRenderer.endWidth = 0f;
+
+        Vector3 lineDirection = (target.transform.position - transform.position).normalized;
+        Vector3 right = Vector3.Cross(lineDirection, Vector3.up).normalized;
+        Vector3 up = Vector3.Cross(lineDirection, right).normalized;
+
         for (int i = 0; i < pointCount; i++)
         {
             float tt = i / (float)(pointCount - 1);
 
-            // base position lerped between source and target
-            Vector3 basePos = Vector3.Lerp(transform.position, dog.transform.position, tt);
+            Vector3 basePos = Vector3.Lerp(transform.position, target.transform.position, tt);
 
-            float noise = Mathf.PerlinNoise(tt * 3f, Time.time * waveSpeed) - 0.5f;
-            Vector3 offset = new Vector3(noise, noise * 0.5f, 0f) * waveStrength;
+            // smooth noise - offset sample positions slightly so axes don't match
+            float noiseX = Mathf.PerlinNoise(tt * noiseScale, Time.time * waveSpeed) - 0.5f;
+            float noiseY = Mathf.PerlinNoise(tt * noiseScale + 17.3f, Time.time * waveSpeed + 5.1f) - 0.5f;
+
+            // fade offset at both ends so line connects cleanly to source and target
+            float edgeFade = Mathf.Sin(tt * Mathf.PI);
+
+            Vector3 offset = (right * noiseX + up * noiseY) * waveStrength * edgeFade;
             basePos += offset;
 
             lineRenderer.SetPosition(i, basePos);

@@ -53,4 +53,9 @@ public class Player : MonoBehaviour
         dogMovement.Active(false);
         ghostMovement.Active(true);
     }
+
+    public bool IsDog()
+{
+    return activePlayer == dog;
+}
 }

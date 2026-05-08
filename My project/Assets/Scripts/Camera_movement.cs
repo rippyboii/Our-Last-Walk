@@ -6,6 +6,7 @@ public class Camera_movement : MonoBehaviour
     public Player Player; // reference to the player script
     public float mouseSensitivity = 2f; // sensitivity of mouse movement
     private float cameraVerticalRotation = 0f; // current rotation around the x-axis 
+    public bool isCameraLocked = false;
 
     void Start()
     {
@@ -15,6 +16,7 @@ public class Camera_movement : MonoBehaviour
 
     void Update()
     {
+        if (isCameraLocked) return;
         GameObject current = Player.activePlayer; // get the currently active player transform
         if (current == null) return;
 
