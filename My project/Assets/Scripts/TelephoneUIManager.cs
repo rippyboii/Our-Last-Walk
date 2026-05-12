@@ -26,7 +26,7 @@ public class TelephoneUIManager : MonoBehaviour
 
     [Header("Audio")]
     public AudioSource audioSource;
-    public AudioClip[] tracks;          // reuse turntable tracks for now
+    public AudioClip[] tracks; // reuse turntable tracks for now
 
     void Start()
     {
@@ -45,6 +45,13 @@ public class TelephoneUIManager : MonoBehaviour
         if (telephoneCanvas != null) telephoneCanvas.SetActive(true);
         if (exitHint != null)        exitHint.SetActive(true);
         ShowOnly(contactsPanel);
+
+        Canvas.ForceUpdateCanvases();
+        if (contactsPanel != null)
+        {
+            UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(
+                contactsPanel.GetComponent<RectTransform>());
+        }
     }
 
     public void OnExitMode()
