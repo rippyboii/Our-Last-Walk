@@ -57,3 +57,11 @@ Logs/
 # Local packages / tools
 # =========================
 My project/Packages/
+
+# =========================
+# Third-party Unity asset packs (local only, not versioned)
+# =========================
+My project/Assets/Furniture Mega Pack/
+My project/Assets/Furniture Mega Pack.meta
+My project/Assets/VNB - Office Set/
+My project/Assets/VNB - Office Set.meta
