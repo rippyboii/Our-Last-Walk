@@ -9,6 +9,10 @@ public class GameStateManager : MonoBehaviour
     public bool safeUnlocked     = false;
     public bool hasKey           = false;
 
+    // for office laptop
+    public bool officeComplete   = false;
+    public string laptopPassword = "1111";
+
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
