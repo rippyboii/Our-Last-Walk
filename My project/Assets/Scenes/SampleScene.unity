@@ -1749,7 +1749,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 40
+    m_MaxSize: 48
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -2903,7 +2903,12 @@ MonoBehaviour:
   prevButton: {fileID: 1181545179}
   nextButton: {fileID: 1814554553}
   closeButton: {fileID: 1198668401}
-  photos: []
+  photos:
+  - {fileID: 21300000, guid: 3e581c17a9d35e64ca12de9e10f23481, type: 3}
+  - {fileID: 21300000, guid: f7b259d864cbdfb4697acb0636747f68, type: 3}
+  - {fileID: 21300000, guid: 74f6d5794a1f91f42a31f10ccff3b3f7, type: 3}
+  - {fileID: 21300000, guid: 58d5aafb615863141b29b5328e2bdb67, type: 3}
+  - {fileID: 21300000, guid: 73d87969c77bab240affb28d1aa9ce84, type: 3}
 --- !u!114 &557265449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5413,7 +5418,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 40
+    m_MaxSize: 48
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -6046,7 +6051,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 120}
+  m_AnchoredPosition: {x: -650, y: 980}
   m_SizeDelta: {x: 540, y: 70}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1039157515
