@@ -7,8 +7,14 @@ public class Highlight : MonoBehaviour
     [SerializeField]
     private List<Renderer> renderers;
     [SerializeField]
+    private Color highlightColor = Color.green;
     private Color color = Color.white;
     private List<Material> materials;
+
+    public void SetColor(Color newColor)
+    {
+        highlightColor = newColor;
+    }
 
     private void Awake()
     {
@@ -25,11 +31,13 @@ public class Highlight : MonoBehaviour
             if (value)
             {
                 m.EnableKeyword("_EMISSION");
-                m.SetColor("_EmissionColor", color);
+                m.SetColor("_EmissionColor", highlightColor);
+                m.color = highlightColor;
             }
             else
             {
                 m.DisableKeyword("_EMISSION");
+                m.color = color;
             }
         }
     }
