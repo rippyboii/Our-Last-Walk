@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     private Dog_movement dogMovement;
 
     public GameObject activePlayer;
+    public LampHighlighter currentActiveLamp;
 
     private void Awake()
     {
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        // Debug.Log("Active Player: " + activePlayer.name);
         if (Input.GetKeyDown(KeyCode.Tab)) // OK to keep for now
         {
             if (activePlayer == ghost)
@@ -35,13 +37,22 @@ public class Player : MonoBehaviour
 
     void SwitchToDog()
     {
-
+        Debug.Log("Switching to Dog");
+        LampHighlighter[] allLamps = FindObjectsOfType<LampHighlighter>();
+        Debug.Log("Found lamps: " + allLamps.Length);
+        foreach (LampHighlighter lamp in allLamps)
+        {
+            Debug.Log("Calling deactivate on: " + lamp.gameObject.name);
+            lamp.Deactivate();
+        }
         activePlayer = dog;
         bond.SetActive(false);
         ghost.SetActive(false);
         ghostMovement.Active(false);
-        
+
         dogMovement.Active(true);
+
+
     }
 
     void SwitchToGhost()

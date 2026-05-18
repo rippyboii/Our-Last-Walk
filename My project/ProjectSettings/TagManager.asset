@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Dog
   - Highlighted
+  - Ingredient
   layers:
   - Default
   - TransparentFX
@@ -16,6 +17,8 @@ TagManager:
   - DogOnly
   - Hightlighted
   - 
+  - pickable
+  - Lamp
   - 
   - 
   - 
