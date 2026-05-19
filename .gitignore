@@ -26,14 +26,9 @@ UserSettings/
 *.pidb
 *.booproj
 *.svd
-.vsconfig
-*.wlt
 
 # VS Code
 .vscode/
-
-# Visual Studio IDE state (machine-specific, not game data)
-.vs/
 
 # =========================
 # OS generated files
@@ -46,6 +41,7 @@ Thumbs.db
 # =========================
 MemoryCaptures/
 Logs/
+<<<<<<< HEAD
 
 # =========================
 # Unity recovery / auto-generated
@@ -65,3 +61,5 @@ My project/Assets/Furniture Mega Pack/
 My project/Assets/Furniture Mega Pack.meta
 My project/Assets/VNB - Office Set/
 My project/Assets/VNB - Office Set.meta
+=======
+>>>>>>> office

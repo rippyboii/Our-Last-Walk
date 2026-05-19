@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public class PhoneUIManager : MonoBehaviour
 {
     [Header("PIN Settings")]
@@ -21,8 +21,8 @@ public class PhoneUIManager : MonoBehaviour
     public GameObject exWifeThread;
 
     [Header("PIN Display")]
-    public Text pinDisplay;
-    public Text errorLabel;
+    public TMP_Text pinDisplay;
+    public TMP_Text errorLabel;
 
     [Header("Numpad Buttons (0-9 in order, then Delete)")]
     public Button[] numpadButtons;

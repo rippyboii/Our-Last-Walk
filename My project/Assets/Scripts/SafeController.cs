@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public class SafeController : MonoBehaviour
 {
     [Header("Settings")]
@@ -13,7 +13,7 @@ public class SafeController : MonoBehaviour
     public GameObject levelCompletePanel; 
 
     [Header("Keypad")]
-    public Text codeDisplay;
+    public TMP_Text codeDisplay;
     public Button[] digitButtons;        
     public Button clearButton;
     public Button enterButton;
