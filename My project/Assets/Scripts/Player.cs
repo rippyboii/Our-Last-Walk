@@ -25,7 +25,6 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        // Debug.Log("Active Player: " + activePlayer.name);
         if (Input.GetKeyDown(KeyCode.Tab)) // OK to keep for now
         {
             if (activePlayer == ghost)
