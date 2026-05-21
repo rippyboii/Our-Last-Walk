@@ -15,6 +15,8 @@ public class PickUp : MonoBehaviour
     [SerializeField]
     private GameObject pickUpUI;
     [SerializeField]
+    private GameObject dropUI;
+    [SerializeField]
     private float hitRange = 3;
     [SerializeField]
     private Transform pickupParent;
@@ -150,11 +152,13 @@ public class PickUp : MonoBehaviour
     {   
         if (!player.IsDog())
         {
+            dropUI.SetActive(false);
             pickUpUI.SetActive(false);
             if (ghostHit.collider != null)
             {
             ghostHit.collider.GetComponent<Highlight>()?.ToggleHighlight(false);
             pickUpUI.SetActive(false);
+            dropUI.SetActive(false);
             }
         
             if (Physics.Raycast(
@@ -178,7 +182,7 @@ public class PickUp : MonoBehaviour
             pickUpUI.SetActive(false);
         }
         
-        if (currentlyCarried != null) return;
+        if (currentlyCarried != null) {dropUI.SetActive(true); return;}
         if (Physics.Raycast(
             playerCameraTransform.position,
             playerCameraTransform.forward,
@@ -186,7 +190,7 @@ public class PickUp : MonoBehaviour
             hitRange,
             pickableLayer))
         {
-           
+            dropUI.SetActive(false);
             hit.collider.GetComponent<Highlight>()?.ToggleHighlight(true);
             pickUpUI.SetActive(true);
 
