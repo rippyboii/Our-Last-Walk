@@ -66,28 +66,47 @@ public class SafeController : MonoBehaviour
 
     void SubmitCode() { StartCoroutine(Validate()); }
 
-    IEnumerator Validate()
-    {
-        yield return new WaitForSecondsRealtime(0.15f);
+    // IEnumerator Validate()
+    // {
+    //     yield return new WaitForSecondsRealtime(0.15f);
 
-        if (inputCode == correctCode)
-        {
-            GameStateManager.Instance.safeUnlocked = true;
-            keypadPanel.SetActive(false);
-            levelCompletePanel.SetActive(true); // show win message
-        }
-        else
-        {
-            wrongCodeFlash?.SetActive(true);
-            yield return new WaitForSecondsRealtime(0.7f);
-            wrongCodeFlash?.SetActive(false);
-            inputCode = "";
-            UpdateDisplay();
-        }
+    //     if (inputCode == correctCode)
+    //     {
+    //         GameStateManager.Instance.safeUnlocked = true;
+    //         keypadPanel.SetActive(false);
+    //         levelCompletePanel.SetActive(true); // show win message
+    //     }
+    //     else
+    //     {
+    //         wrongCodeFlash?.SetActive(true);
+    //         yield return new WaitForSecondsRealtime(0.7f);
+    //         wrongCodeFlash?.SetActive(false);
+    //         inputCode = "";
+    //         UpdateDisplay();
+    //     }
+    // }
+
+    IEnumerator Validate()
+{
+    Debug.Log("Validate started");
+    yield return new WaitForSecondsRealtime(0.15f);
+    Debug.Log("After wait - inputCode: '" + inputCode + "' correctCode: '" + correctCode + "' match: " + (inputCode == correctCode));
+
+    if (inputCode.Trim() == correctCode.Trim())
+    {
+        Debug.Log("CORRECT - triggering win");
+        // rest of code
     }
+    else
+    {
+        Debug.Log("WRONG");
+    }
+}
 
     void UpdateDisplay()
     {
         if (codeDisplay != null) codeDisplay.text = inputCode;
+        Debug.Log("Current Input: " + inputCode);
+        Debug.Log("Correct Code: " + correctCode);
     }
 }
