@@ -5,23 +5,23 @@ public class TelephoneProximityTrigger : MonoBehaviour
     public GameObject promptUI;
     public TelephoneController telephone;
 
-    private bool dogInRange = false;
+    private bool playerInRange = false;
 
     void Start() { if (promptUI != null) promptUI.SetActive(false); }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Dog")) { dogInRange = true; promptUI?.SetActive(true); }
+        if (other.CompareTag("Player")) { playerInRange = true; promptUI?.SetActive(true); }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Dog")) { dogInRange = false; promptUI?.SetActive(false); }
+        if (other.CompareTag("Player")) { playerInRange = false; promptUI?.SetActive(false); }
     }
 
     void Update()
     {
-        if (dogInRange && Input.GetKeyDown(KeyCode.E))
+        if (playerInRange && Input.GetKeyDown(KeyCode.E))
         {
             promptUI?.SetActive(false);
             telephone.EnterTelephoneMode();
