@@ -41,7 +41,7 @@ public class WallFrameSlot : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         Debug.Log($"[WallFrameSlot {slotIndex}] TriggerEnter: {other.name} tag={other.tag}, HeldPhoto={PhotoDrag.HeldPhoto?.photoId ?? "null"}");
-        if (!other.CompareTag("Player")) return;
+        if (!other.CompareTag("Dog")) return;
         playerInRange = true;
 
         if (PhotoDrag.HeldPhoto != null)
@@ -61,7 +61,7 @@ public class WallFrameSlot : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("Player")) return;
+        if (!other.CompareTag("Dog")) return;
         playerInRange = false;
 
         if (PhotoDrag.HeldPhoto != null && PhotoDrag.framesInRange > 0)
@@ -137,9 +137,9 @@ public class WallFrameSlot : MonoBehaviour
     }
 
     void SetHighlight(bool on)
-{
-    int layer = on ? highlightLayer : defaultLayer;
-    foreach (var r in frameRenderers)
-        r.gameObject.layer = layer;
-}
+    {
+        // int layer = on ? highlightLayer : defaultLayer;
+        // foreach (var r in frameRenderers)
+        //     r.gameObject.layer = layer;
+    }
 }
