@@ -9,6 +9,8 @@ public class ClueReadable : MonoBehaviour
 
     private bool playerInRange;
     private bool isOpen;
+    [TextArea]
+    public string monologueLine;
 
     void Start()
     {
@@ -60,6 +62,11 @@ public class ClueReadable : MonoBehaviour
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        if (!string.IsNullOrEmpty(monologueLine))
+        {
+            MonologueManager.Instance.ShowLine(monologueLine);
+        }
+        
     }
 
     void CloseClue()
@@ -71,5 +78,6 @@ public class ClueReadable : MonoBehaviour
         Cursor.visible = false;
         if (playerInRange && promptPanel != null)
             promptPanel.SetActive(true);
+        MonologueManager.Instance.HideLine();
     }
 }

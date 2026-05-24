@@ -43,8 +43,11 @@ public class PickUp : MonoBehaviour
 
    void Start()
     {
-        balanceQTE = FindObjectOfType<BalanceQTE>();
-        balanceQTE.OnFail += HandleFragileFail;
+       balanceQTE = FindObjectOfType<BalanceQTE>();
+        if (balanceQTE != null)
+        {
+            balanceQTE.OnFail += HandleFragileFail;
+        }
         player = FindObjectOfType<Player>();
         interactionInput.action.performed += Interact;
         dropInput.action.performed += Drop;
@@ -103,6 +106,12 @@ public class PickUp : MonoBehaviour
                 lamp.Activate();
                 currentLamp = lamp;
                 player.currentActiveLamp = lamp;
+            }
+            GhostInteractable interactable = ghostHit.collider.GetComponent<GhostInteractable>();
+            Debug.Log("Ghost interact - collider: " + ghostHit.collider?.name + " interactable: " + (interactable != null));
+            if (interactable != null)
+            {
+                interactable.Interact();
             }
         }
 
@@ -172,7 +181,25 @@ public class PickUp : MonoBehaviour
                 Debug.Log("Looking at " + ghostHit.collider.name);
             }
             Debug.DrawRay(playerCameraTransform.position, playerCameraTransform.forward * hitRange, Color.red);
-            return;
+            
+
+            if (ghostHit.collider != null) 
+            {
+                ghostHit.collider.GetComponent<Highlight>()?.ToggleHighlight(false);
+            }
+
+        // raycast with no layer mask to hit everything
+            if (Physics.Raycast(
+                playerCameraTransform.position,
+                playerCameraTransform.forward,
+                out ghostHit,
+                hitRange))
+            // highlight whatever ghost looks at that has GhostInteractable
+                if (ghostHit.collider != null)
+                {
+                    if (ghostHit.collider.GetComponent<GhostInteractable>() != null)
+                        ghostHit.collider.GetComponent<Highlight>()?.ToggleHighlight(true);
+                }
         } 
         // don't do anything if we're already carrying something
         Debug.DrawRay(playerCameraTransform.position, playerCameraTransform.forward * hitRange, Color.red);
