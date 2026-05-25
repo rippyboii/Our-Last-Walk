@@ -22,7 +22,7 @@ public class WallFrameSlot : MonoBehaviour
     private Renderer[] frameRenderers;
     private int defaultLayer;
     private int highlightLayer;
-    private Material originalSlot1Material;
+    public Material originalSlot1Material;
 
     void Start()
     {
@@ -90,9 +90,9 @@ public class WallFrameSlot : MonoBehaviour
 
         if (frameMeshRenderer != null && photo.photoMaterial != null)
         {
-            Material[] mats = frameMeshRenderer.materials;
-            mats[1] = photo.photoMaterial;
-            frameMeshRenderer.materials = mats;
+            Material mat = frameMeshRenderer.material;
+            mat = photo.photoMaterial;
+            frameMeshRenderer.material = mat;
         }
 
         SetHighlight(false);
@@ -108,9 +108,9 @@ public class WallFrameSlot : MonoBehaviour
 
         if (frameMeshRenderer != null && originalSlot1Material != null)
         {
-            Material[] mats = frameMeshRenderer.materials;
-            mats[1] = originalSlot1Material;
-            frameMeshRenderer.materials = mats;
+            Material mat = frameMeshRenderer.material;
+            mat = originalSlot1Material;
+            frameMeshRenderer.material = mat;
         }
 
         removed.PickUpFromFrame();

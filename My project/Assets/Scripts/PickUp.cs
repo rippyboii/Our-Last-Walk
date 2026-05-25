@@ -11,9 +11,13 @@ public class PickUp : MonoBehaviour
     [SerializeField]
     private LayerMask pickableLayer;
     [SerializeField]
+    private LayerMask drawerLayer;
+    [SerializeField]
     private Transform playerCameraTransform;
     [SerializeField]
     private GameObject pickUpUI;
+    [SerializeField]
+    private GameObject ponderUI;
     [SerializeField]
     private GameObject dropUI;
     [SerializeField]
@@ -64,6 +68,12 @@ public class PickUp : MonoBehaviour
             if (hit.collider == null) return;
             Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
             ParticleSystem ps = hit.collider.GetComponent<ParticleSystem>();
+            Drawer drawer = hit.collider.GetComponent<Drawer>();
+            if (drawer != null)
+            {
+                drawer.Interact();
+                return;
+            }
 
             if (hit.collider.GetComponent<Item>())
             {
@@ -163,6 +173,7 @@ public class PickUp : MonoBehaviour
         {
             dropUI.SetActive(false);
             pickUpUI.SetActive(false);
+            ponderUI.SetActive(false);
             if (ghostHit.collider != null)
             {
             ghostHit.collider.GetComponent<Highlight>()?.ToggleHighlight(false);
@@ -196,10 +207,13 @@ public class PickUp : MonoBehaviour
                 hitRange))
             // highlight whatever ghost looks at that has GhostInteractable
                 if (ghostHit.collider != null)
-                {
+                {   
+                    ghostHit.collider.GetComponent<Highlight>()?.ToggleHighlight(false);
                     if (ghostHit.collider.GetComponent<GhostInteractable>() != null)
+                        ponderUI.SetActive(true);
                         ghostHit.collider.GetComponent<Highlight>()?.ToggleHighlight(true);
                 }
+                else return;
         } 
         // don't do anything if we're already carrying something
         Debug.DrawRay(playerCameraTransform.position, playerCameraTransform.forward * hitRange, Color.red);
@@ -216,11 +230,13 @@ public class PickUp : MonoBehaviour
             out hit,
             hitRange,
             pickableLayer))
-        {
-            dropUI.SetActive(false);
-            hit.collider.GetComponent<Highlight>()?.ToggleHighlight(true);
-            pickUpUI.SetActive(true);
-
+        {   
+            if (player.IsDog())
+            {
+                dropUI.SetActive(false);
+                hit.collider.GetComponent<Highlight>()?.ToggleHighlight(true);
+                pickUpUI.SetActive(true);
+            }
         }
     }
     
