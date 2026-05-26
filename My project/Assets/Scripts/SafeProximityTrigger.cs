@@ -5,6 +5,7 @@ public class SafeProximityTrigger : MonoBehaviour
     public GameObject promptUI;
     public SafeController safe; 
     public string playerTag = "Dog";
+    public Player player;
 
     private bool dogInRange = false;
 
@@ -22,7 +23,7 @@ public class SafeProximityTrigger : MonoBehaviour
 
     void Update()
     {
-        if (dogInRange && Input.GetKeyDown(KeyCode.E))
+        if (dogInRange && Input.GetKeyDown(KeyCode.E) && player.IsDog())
         {
             promptUI?.SetActive(false);
             safe.OpenSafe();

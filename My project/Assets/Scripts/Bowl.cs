@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic; // ← added
+using System.Collections; 
 
 public class Bowl : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class Bowl : MonoBehaviour
             completionEffect.Stop();
             completionEffect.Clear();
             completionEffect.Play();
+            StartCoroutine(TriggerTransition());
         }
     }
 
@@ -86,4 +88,10 @@ public class Bowl : MonoBehaviour
 
 
 }
+
+IEnumerator TriggerTransition()
+    {
+        yield return new WaitForSeconds(3f);
+        FindObjectOfType<SceneTransitionManager>().TriggerTransition();
+    }
 }

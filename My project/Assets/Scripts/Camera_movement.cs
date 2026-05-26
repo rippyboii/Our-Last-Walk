@@ -33,7 +33,7 @@ public class Camera_movement : MonoBehaviour
         if (Player.IsDog())
         {
             transform.position += current.transform.forward * 0.9f;  
-            transform.position += current.transform.up * 0.5f;          
+            transform.position += current.transform.up * 0.3f;          
         }
 
     }
