@@ -45,7 +45,7 @@ void Update()
         isShowing = true;
         qtePanel.SetActive(true);
         keyText.text = key.ToString();
-        outerCircle.transform.localScale = Vector3.one * 2f;
+        outerCircle.fillAmount = 1f; // reset to full when showing
         outerCircle.color = Color.white;
     }
 

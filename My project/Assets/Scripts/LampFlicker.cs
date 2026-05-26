@@ -2,7 +2,7 @@ using UnityEngine;
 public class LampFlicker : MonoBehaviour
 {
     public Light lampLight;
-    public float flickerRadius = 4f;
+    public float flickerRadius = 6f;
     public Transform ghost;
     private float baseIntensity;
 

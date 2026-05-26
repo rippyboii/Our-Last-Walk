@@ -1,21 +1,18 @@
 using UnityEngine;
 
+
 public class GameStateManager : MonoBehaviour
 {
-    public static GameStateManager Instance { get; private set; }
+    public static GameStateManager Instance;
 
-    public bool hasPaperCode     = false;
-    public bool hasPhonePassword = false;
-    public bool safeUnlocked     = false;
-    public bool hasKey           = false;
+    public bool safe1Unlocked = false;
+    public bool doorUnlocked = false;
+    public bool computerUnlocked = false;
+    public bool photosSolved = false;
 
-    // for office laptop
-    public bool officeComplete   = false;
-    public string laptopPassword = "1111";
-
-    private void Awake()
+    void Awake()
     {
-        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+        if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }

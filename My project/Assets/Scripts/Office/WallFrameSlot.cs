@@ -22,7 +22,7 @@ public class WallFrameSlot : MonoBehaviour
     private Renderer[] frameRenderers;
     private int defaultLayer;
     private int highlightLayer;
-    private Material originalSlot1Material;
+    public Material originalSlot1Material;
 
     void Start()
     {
@@ -41,7 +41,7 @@ public class WallFrameSlot : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         Debug.Log($"[WallFrameSlot {slotIndex}] TriggerEnter: {other.name} tag={other.tag}, HeldPhoto={PhotoDrag.HeldPhoto?.photoId ?? "null"}");
-        if (!other.CompareTag("Player")) return;
+        if (!other.CompareTag("Dog")) return;
         playerInRange = true;
 
         if (PhotoDrag.HeldPhoto != null)
@@ -61,7 +61,7 @@ public class WallFrameSlot : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("Player")) return;
+        if (!other.CompareTag("Dog")) return;
         playerInRange = false;
 
         if (PhotoDrag.HeldPhoto != null && PhotoDrag.framesInRange > 0)
@@ -90,9 +90,9 @@ public class WallFrameSlot : MonoBehaviour
 
         if (frameMeshRenderer != null && photo.photoMaterial != null)
         {
-            Material[] mats = frameMeshRenderer.materials;
-            mats[1] = photo.photoMaterial;
-            frameMeshRenderer.materials = mats;
+            Material mat = frameMeshRenderer.material;
+            mat = photo.photoMaterial;
+            frameMeshRenderer.material = mat;
         }
 
         SetHighlight(false);
@@ -108,9 +108,9 @@ public class WallFrameSlot : MonoBehaviour
 
         if (frameMeshRenderer != null && originalSlot1Material != null)
         {
-            Material[] mats = frameMeshRenderer.materials;
-            mats[1] = originalSlot1Material;
-            frameMeshRenderer.materials = mats;
+            Material mat = frameMeshRenderer.material;
+            mat = originalSlot1Material;
+            frameMeshRenderer.material = mat;
         }
 
         removed.PickUpFromFrame();
@@ -137,9 +137,9 @@ public class WallFrameSlot : MonoBehaviour
     }
 
     void SetHighlight(bool on)
-{
-    int layer = on ? highlightLayer : defaultLayer;
-    foreach (var r in frameRenderers)
-        r.gameObject.layer = layer;
-}
+    {
+        // int layer = on ? highlightLayer : defaultLayer;
+        // foreach (var r in frameRenderers)
+        //     r.gameObject.layer = layer;
+    }
 }

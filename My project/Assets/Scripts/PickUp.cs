@@ -11,9 +11,15 @@ public class PickUp : MonoBehaviour
     [SerializeField]
     private LayerMask pickableLayer;
     [SerializeField]
+    private LayerMask drawerLayer;
+    [SerializeField]
     private Transform playerCameraTransform;
     [SerializeField]
     private GameObject pickUpUI;
+    [SerializeField]
+    private GameObject ponderUI;
+    [SerializeField]
+    private GameObject dropUI;
     [SerializeField]
     private float hitRange = 3;
     [SerializeField]
@@ -41,8 +47,11 @@ public class PickUp : MonoBehaviour
 
    void Start()
     {
-        balanceQTE = FindObjectOfType<BalanceQTE>();
-        balanceQTE.OnFail += HandleFragileFail;
+       balanceQTE = FindObjectOfType<BalanceQTE>();
+        if (balanceQTE != null)
+        {
+            balanceQTE.OnFail += HandleFragileFail;
+        }
         player = FindObjectOfType<Player>();
         interactionInput.action.performed += Interact;
         dropInput.action.performed += Drop;
@@ -59,6 +68,12 @@ public class PickUp : MonoBehaviour
             if (hit.collider == null) return;
             Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
             ParticleSystem ps = hit.collider.GetComponent<ParticleSystem>();
+            Drawer drawer = hit.collider.GetComponent<Drawer>();
+            if (drawer != null)
+            {
+                drawer.Interact();
+                return;
+            }
 
             if (hit.collider.GetComponent<Item>())
             {
@@ -101,6 +116,12 @@ public class PickUp : MonoBehaviour
                 lamp.Activate();
                 currentLamp = lamp;
                 player.currentActiveLamp = lamp;
+            }
+            GhostInteractable interactable = ghostHit.collider.GetComponent<GhostInteractable>();
+            Debug.Log("Ghost interact - collider: " + ghostHit.collider?.name + " interactable: " + (interactable != null));
+            if (interactable != null)
+            {
+                interactable.Interact();
             }
         }
 
@@ -148,13 +169,20 @@ public class PickUp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
+        if (player.IsDog())
+        {
+            ponderUI.SetActive(false);
+        }
         if (!player.IsDog())
         {
+            dropUI.SetActive(false);
             pickUpUI.SetActive(false);
+            ponderUI.SetActive(false);
             if (ghostHit.collider != null)
             {
             ghostHit.collider.GetComponent<Highlight>()?.ToggleHighlight(false);
             pickUpUI.SetActive(false);
+            dropUI.SetActive(false);
             }
         
             if (Physics.Raycast(
@@ -168,28 +196,54 @@ public class PickUp : MonoBehaviour
                 Debug.Log("Looking at " + ghostHit.collider.name);
             }
             Debug.DrawRay(playerCameraTransform.position, playerCameraTransform.forward * hitRange, Color.red);
-            return;
+            
+
+            if (ghostHit.collider != null) 
+            {
+                ghostHit.collider.GetComponent<Highlight>()?.ToggleHighlight(false);
+            }
+
+        // raycast with no layer mask to hit everything
+            if (Physics.Raycast(
+                playerCameraTransform.position,
+                playerCameraTransform.forward,
+                out ghostHit,
+                hitRange))
+            // highlight whatever ghost looks at that has GhostInteractable
+                if (ghostHit.collider != null)
+                {   
+                    ghostHit.collider.GetComponent<Highlight>()?.ToggleHighlight(false);
+                    if (ghostHit.collider.GetComponent<GhostInteractable>() != null)
+                        ponderUI.SetActive(true);
+                        ghostHit.collider.GetComponent<Highlight>()?.ToggleHighlight(true);
+                }
+                else return;
         } 
         // don't do anything if we're already carrying something
         Debug.DrawRay(playerCameraTransform.position, playerCameraTransform.forward * hitRange, Color.red);
+        
         if (hit.collider != null)
         {
             hit.collider.GetComponent<Highlight>()?.ToggleHighlight(false);
             pickUpUI.SetActive(false);
+            ponderUI.SetActive(false);
         }
         
-        if (currentlyCarried != null) return;
+        if (currentlyCarried != null) {dropUI.SetActive(true); return;}
         if (Physics.Raycast(
             playerCameraTransform.position,
             playerCameraTransform.forward,
             out hit,
             hitRange,
             pickableLayer))
-        {
-           
-            hit.collider.GetComponent<Highlight>()?.ToggleHighlight(true);
-            pickUpUI.SetActive(true);
-
+        {   
+            if (player.IsDog())
+            {
+                dropUI.SetActive(false);
+                ponderUI.SetActive(false);
+                hit.collider.GetComponent<Highlight>()?.ToggleHighlight(true);
+                pickUpUI.SetActive(true);
+            }
         }
     }
     

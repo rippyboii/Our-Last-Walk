@@ -4,6 +4,7 @@ public class SafeProximityTrigger : MonoBehaviour
 {
     public GameObject promptUI;
     public SafeController safe; 
+    public string playerTag = "Dog";
 
     private bool dogInRange = false;
 
@@ -11,12 +12,12 @@ public class SafeProximityTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Dog")) { dogInRange = true; promptUI?.SetActive(true); }
+        if (other.CompareTag(playerTag)) { dogInRange = true; promptUI?.SetActive(true); }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Dog")) { dogInRange = false; promptUI?.SetActive(false); }
+        if (other.CompareTag(playerTag)) { dogInRange = false; promptUI?.SetActive(false); }
     }
 
     void Update()

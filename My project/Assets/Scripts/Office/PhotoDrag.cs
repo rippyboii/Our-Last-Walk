@@ -23,7 +23,11 @@ public class PhotoDrag : MonoBehaviour
     private Renderer[] photoRenderers;
 
     void Start()
-    {
+    {   
+        HeldPhoto = null;
+        framesInRange = 0;
+        isHeld = false;
+
         rb = GetComponent<Rigidbody>();
         originalPosition = transform.position;
         originalRotation = transform.rotation;
@@ -35,7 +39,8 @@ public class PhotoDrag : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player") || isHeld || HeldPhoto != null) return;
+        Debug.Log($"[PhotoDrag] TriggerEnter: {other.name} tag={other.tag}");
+        if (!other.CompareTag("Dog") || isHeld || HeldPhoto != null) return;
         playerInRange = true;
         if (promptPanel != null)
             promptPanel.SetActive(true);
@@ -43,7 +48,7 @@ public class PhotoDrag : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("Player")) return;
+        if (!other.CompareTag("Dog")) return;
         playerInRange = false;
         if (promptPanel != null)
             promptPanel.SetActive(false);
@@ -59,7 +64,10 @@ public class PhotoDrag : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.E) && !isHeld && playerInRange && HeldPhoto == null)
+        {
             PickUp();
+            Debug.Log($"[PhotoDrag] E pressed - isHeld:{isHeld} playerInRange:{playerInRange} HeldPhoto:{HeldPhoto?.photoId ?? "null"}");
+        }
     }
 
     void PickUp()
@@ -113,6 +121,7 @@ public class PhotoDrag : MonoBehaviour
 
     void SetRenderersVisible(bool visible)
     {
+         Debug.Log($"[PhotoDrag] SetRenderersVisible called with {visible} from: {System.Environment.StackTrace}");
         foreach (Renderer r in photoRenderers)
             r.enabled = visible;
     }

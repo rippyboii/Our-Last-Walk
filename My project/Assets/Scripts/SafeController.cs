@@ -22,6 +22,19 @@ public class SafeController : MonoBehaviour
 
     private string inputCode = "";
 
+    public bool isFinalSafe = false; // set to true for the door
+
+    [Header("Door Animation")]
+    public Transform safeDoor;
+    public Transform hingePoint;        // empty GameObject at hinge edge
+    public float doorOpenAngle = 120f;  // total degrees to swing open
+    public float doorOpenSpeed = 60f;   // degrees per second
+    public GameObject lastDrawing;
+
+
+    private bool doorIsOpening = false;
+    private float angleTurned = 0f;
+
     void Start()
     {
         for (int i = 0; i < digitButtons.Length; i++)
@@ -66,28 +79,84 @@ public class SafeController : MonoBehaviour
 
     void SubmitCode() { StartCoroutine(Validate()); }
 
-    IEnumerator Validate()
-    {
-        yield return new WaitForSecondsRealtime(0.15f);
+    // IEnumerator Validate()
+    // {
+    //     yield return new WaitForSecondsRealtime(0.15f);
 
-        if (inputCode == correctCode)
+    //     if (inputCode == correctCode)
+    //     {
+    //         GameStateManager.Instance.safeUnlocked = true;
+    //         keypadPanel.SetActive(false);
+    //         levelCompletePanel.SetActive(true); // show win message
+    //     }
+    //     else
+    //     {
+    //         wrongCodeFlash?.SetActive(true);
+    //         yield return new WaitForSecondsRealtime(0.7f);
+    //         wrongCodeFlash?.SetActive(false);
+    //         inputCode = "";
+    //         UpdateDisplay();
+    //     }
+    // }
+
+    IEnumerator Validate()
+{
+    Debug.Log("Validate started");
+    yield return new WaitForSecondsRealtime(0.15f);
+    Debug.Log("After wait - inputCode: '" + inputCode + "' correctCode: '" + correctCode + "' match: " + (inputCode.Trim() == correctCode.Trim()));
+
+    if (inputCode.Trim() == correctCode.Trim())
+    {
+        if (isFinalSafe)
         {
-            GameStateManager.Instance.safeUnlocked = true;
-            keypadPanel.SetActive(false);
-            levelCompletePanel.SetActive(true); // show win message
+            GameStateManager.Instance.doorUnlocked = true;
+            FindObjectOfType<SceneTransitionManager>().TriggerTransition();
+            yield break; 
         }
-        else
-        {
-            wrongCodeFlash?.SetActive(true);
-            yield return new WaitForSecondsRealtime(0.7f);
-            wrongCodeFlash?.SetActive(false);
-            inputCode = "";
-            UpdateDisplay();
-        }
+    else
+        GameStateManager.Instance.safe1Unlocked = true;
+        keypadPanel.SetActive(false);
+        levelCompletePanel.SetActive(true);
+        CloseSafe();
+        
+        // open door and reveal note
+        doorIsOpening = true;
+        yield return new WaitForSecondsRealtime(1f); // wait for door to swing open
+        lastDrawing.SetActive(true); // reveal the note
+
     }
+    else
+    {
+        Debug.Log("WRONG");
+    }
+}
 
     void UpdateDisplay()
     {
         if (codeDisplay != null) codeDisplay.text = inputCode;
+        Debug.Log("Current Input: " + inputCode);
+        Debug.Log("Correct Code: " + correctCode);
     }
+
+   void Update()
+{
+    // existing update code...
+
+    if (doorIsOpening && Mathf.Abs(angleTurned) < Mathf.Abs(doorOpenAngle))
+    {
+        float step = doorOpenSpeed * Time.deltaTime;
+        
+        // rotate in correct direction based on sign of doorOpenAngle
+        float direction = Mathf.Sign(doorOpenAngle);
+        safeDoor.RotateAround(hingePoint.position, Vector3.up, step * direction);
+        angleTurned += step;
+
+        if (angleTurned >= Mathf.Abs(doorOpenAngle))
+        {
+            doorIsOpening = false;
+            if (lastDrawing != null)
+                lastDrawing.SetActive(true);
+        }
+    }
+}
 }

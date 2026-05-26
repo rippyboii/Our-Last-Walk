@@ -17,7 +17,10 @@ public class PhotoPuzzleManager : MonoBehaviour
         if (solved) return;
 
         // TEST: only require child photo in slot 1
-        if (slots[1].currentPhotoId != "child") return;
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].currentPhotoId != i.ToString()) return;
+        }
 
         solved = true;
         foreach (WallFrameSlot slot in slots)
@@ -29,6 +32,11 @@ public class PhotoPuzzleManager : MonoBehaviour
     IEnumerator TriggerFlashback()
     {
         yield return new WaitForSeconds(0.5f);
-        flashbackManager.PlayFlashback();
+        // flashbackManager.PlayFlashback();
+        
+        // after flashback plays, trigger transition
+        // either wait for flashback duration or call this from FlashbackManager when done
+        // GameStateManager.Instance.photosSolved = true;
+        FindObjectOfType<SceneTransitionManager>().TriggerTransition();
     }
 }

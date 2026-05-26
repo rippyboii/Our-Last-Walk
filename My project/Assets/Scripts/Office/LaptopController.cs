@@ -24,6 +24,8 @@ public class LaptopController : MonoBehaviour
     private bool passwordEntered;
     private bool officeMarked;
 
+    private string correctPassword = "1979";
+
     void Start()
     {
         if (laptopCanvas != null) laptopCanvas.SetActive(false);
@@ -94,7 +96,7 @@ public class LaptopController : MonoBehaviour
         if (passwordEntered && !officeMarked)
         {
             officeMarked = true;
-            GameStateManager.Instance.officeComplete = true;
+            // GameStateManager.Instance.officeComplete = true;
         }
 
         laptopCanvas.SetActive(false);
@@ -112,7 +114,7 @@ public class LaptopController : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(0.15f);
 
-        if (entered == GameStateManager.Instance.laptopPassword)
+        if (entered == correctPassword)
         {
             passwordEntered = true;
             lockScreenPanel.SetActive(false);

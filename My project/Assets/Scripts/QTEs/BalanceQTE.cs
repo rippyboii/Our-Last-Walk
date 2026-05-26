@@ -41,7 +41,7 @@ public class BalanceQTE : MonoBehaviour
         HandleDrift();
         HandlePlayerInput();
         HandleFailCondition();
-        Debug.Log($"Needle Position: {needlePosition}, Velocity: {needleVelocity}, Fail Timer: {failTimer}");
+        // Debug.Log($"Needle Position: {needlePosition}, Velocity: {needleVelocity}, Fail Timer: {failTimer}");
     }
 
     void HandleDrift()

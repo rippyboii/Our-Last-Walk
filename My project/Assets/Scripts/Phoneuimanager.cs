@@ -162,7 +162,7 @@ public class PhoneUIManager : MonoBehaviour
         {
             exWifeOpened = true;
             if (GameStateManager.Instance != null)
-                GameStateManager.Instance.hasPhonePassword = true;
+                // GameStateManager.Instance.hasPhonePassword = true;
             Debug.Log("GameStateManager.hasPhonePassword = true");
         }
     }
