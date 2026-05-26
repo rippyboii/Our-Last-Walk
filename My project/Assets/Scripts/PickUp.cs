@@ -169,6 +169,10 @@ public class PickUp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
+        if (player.IsDog())
+        {
+            ponderUI.SetActive(false);
+        }
         if (!player.IsDog())
         {
             dropUI.SetActive(false);
@@ -217,10 +221,12 @@ public class PickUp : MonoBehaviour
         } 
         // don't do anything if we're already carrying something
         Debug.DrawRay(playerCameraTransform.position, playerCameraTransform.forward * hitRange, Color.red);
+        
         if (hit.collider != null)
         {
             hit.collider.GetComponent<Highlight>()?.ToggleHighlight(false);
             pickUpUI.SetActive(false);
+            ponderUI.SetActive(false);
         }
         
         if (currentlyCarried != null) {dropUI.SetActive(true); return;}
@@ -234,6 +240,7 @@ public class PickUp : MonoBehaviour
             if (player.IsDog())
             {
                 dropUI.SetActive(false);
+                ponderUI.SetActive(false);
                 hit.collider.GetComponent<Highlight>()?.ToggleHighlight(true);
                 pickUpUI.SetActive(true);
             }

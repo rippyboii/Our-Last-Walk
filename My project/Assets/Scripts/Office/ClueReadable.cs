@@ -46,12 +46,14 @@ public class ClueReadable : MonoBehaviour
 
     void Update()
     {
-        if (!Input.GetKeyDown(KeyCode.E)) return;
-
-        if (isOpen)
-            CloseClue();
-        else if (playerInRange)
-            OpenClue();
+        if (playerInRange && Input.GetKeyDown(KeyCode.E))
+        {
+            if (isOpen)
+                CloseClue();
+            else
+                OpenClue();
+        }
+       
     }
 
     void OpenClue()

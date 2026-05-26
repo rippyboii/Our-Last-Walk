@@ -33,7 +33,7 @@ public class PaperBite : MonoBehaviour
         transform.rotation = Quaternion.Euler(270f, 0f, 0f); 
         rb.isKinematic = false;
         if (meshCol != null) meshCol.enabled = true;
-        GameStateManager.Instance.hasPaperCode = true;
+        // GameStateManager.Instance.hasPaperCode = true;
     } 
 
     void LateUpdate() {
