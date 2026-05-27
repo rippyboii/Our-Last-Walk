@@ -260,7 +260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   ghost: {fileID: 4944958177086810295}
   dog: {fileID: 2417034203684576080}
-  bond: {fileID: 0}
+  bond: {fileID: 7177486600705528165, guid: fdc2b4d812204cb4b909a470bd1154b1, type: 3}
   activePlayer: {fileID: 0}
   currentActiveLamp: {fileID: 0}
 --- !u!1 &4944958177086810295

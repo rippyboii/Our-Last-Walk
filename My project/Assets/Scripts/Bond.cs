@@ -4,8 +4,8 @@ using UnityEngine;
 public class Bond : MonoBehaviour
 {   
     public LineRenderer bond;
-    public GameObject character1;
-    public GameObject character2;
+    public GameObject Dog;
+    public GameObject Ghost;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -15,8 +15,8 @@ public class Bond : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bond.SetPosition(0, character1.transform.position-new Vector3(0,0.3f,0));
-        bond.SetPosition(1, character2.transform.position-new Vector3(0,0.3f,0));
+        bond.SetPosition(0, Dog.transform.position-new Vector3(0,0.0f,0));
+        bond.SetPosition(1, Ghost.transform.position-new Vector3(0,0.3f,0));
 
     }
 }

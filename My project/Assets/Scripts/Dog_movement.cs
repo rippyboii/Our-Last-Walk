@@ -81,7 +81,7 @@ public class Dog_movement : MonoBehaviour
 
         rb.MovePosition(rb.position + move);
 
-        animator.SetFloat("Speed", moveVector.magnitude);
+        //animator.SetFloat("Speed", moveVector.magnitude);
     }
 
     private void Rotate()
@@ -100,7 +100,7 @@ public class Dog_movement : MonoBehaviour
 
     bool IsGrounded()
     {
-        return Physics.Raycast(transform.position, Vector3.down, 0.50001f);
+        return Physics.Raycast(transform.position, Vector3.down, 0.4f);
     }
 
     private void Crouch()

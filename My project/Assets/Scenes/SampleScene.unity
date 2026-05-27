@@ -3345,7 +3345,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 796316088905711862, guid: a97ab08a22564ad4abca30b2d407b547, type: 3}
       propertyPath: jumpForce
-      value: 0.5
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7897155792095036698, guid: a97ab08a22564ad4abca30b2d407b547, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3393,7 +3393,10 @@ PrefabInstance:
       objectReference: {fileID: 1061362166}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7897155792095036698, guid: a97ab08a22564ad4abca30b2d407b547, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1061362168}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 490419890835929071, guid: a97ab08a22564ad4abca30b2d407b547, type: 3}
       insertIndex: -1
@@ -5561,8 +5564,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bond
   bond: {fileID: 973276943}
-  character1: {fileID: 1258463302}
-  character2: {fileID: 1426599585}
+  Dog: {fileID: 1426599585}
+  Ghost: {fileID: 1258463302}
 --- !u!4 &1061362168
 Transform:
   m_ObjectHideFlags: 0
@@ -5571,13 +5574,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1061362166}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.5}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.6969808, y: 0, z: -2.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 973276944}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1735189858}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1084724865
 GameObject:
@@ -8905,6 +8908,11 @@ MonoBehaviour:
     m_Bits: 1024
   interactionInput: {fileID: 1967685247752397681, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   dropInput: {fileID: -8102076341981379864, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+--- !u!4 &1735189858 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7897155792095036698, guid: a97ab08a22564ad4abca30b2d407b547, type: 3}
+  m_PrefabInstance: {fileID: 729429567}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1741638676 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6314693392318873393, guid: 8326825491e56934c92416a4dfe535aa, type: 3}
@@ -12464,7 +12472,6 @@ SceneRoots:
   - {fileID: 294769792}
   - {fileID: 871967541}
   - {fileID: 845105064}
-  - {fileID: 1061362168}
   - {fileID: 15755336}
   - {fileID: 136110367}
   - {fileID: 1641602511}
